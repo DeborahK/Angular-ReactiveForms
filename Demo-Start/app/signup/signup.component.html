@@ -1,0 +1,186 @@
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		Sign Up!
+	</div>
+
+	<div class="panel-body">
+		<form class="form-horizontal">
+			<fieldset>
+				<div class="form-group">
+					<label class="col-md-2 control-label" 
+                           for="firstNameId">First Name</label>
+
+					<div class="col-md-5">
+						<input class="form-control" 
+                               id="firstNameId" 
+                               type="text" 
+                               placeholder="First Name (required)" 
+                               required 
+                               maxlength="50" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-md-2 control-label" 
+                           for="lastNameId">Last Name</label>
+
+					<div class="col-md-5">
+						<input class="form-control" 
+                               id="lastNameId" 
+                               type="text" 
+                               placeholder="Last Name (required)" 
+                               required 
+                               maxlength="50" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-md-2 control-label" 
+                           for="emailId">Email</label>
+
+					<div class="col-md-5">
+						<input class="form-control" 
+                               id="emailId" 
+                               type="email" 
+                               placeholder="Email (required)" 
+                               required />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-md-2 control-label"
+                           for="addressTypeId">Send me your catalog</label>
+					<div class="col-md-5 checkbox" >
+                        <input type="checkbox"
+                               id="addressTypeId"
+                               value="">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-md-2 control-label">Address Type</label>
+					<div class="col-md-4">
+                            <label class="radio-inline">
+                                <input type="radio" id="addressType1Id" value="home" checked>Home
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" id="addressType1Id" value="work">Work
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" id="addressType1Id" value="other">Other
+                            </label>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-md-2 control-label" 
+                           for="street1Id">Street Address 1</label>
+					<div class="col-md-5">
+    					<input type="text" 
+                               class="form-control" 
+                               id="street1Id" 
+                               placeholder="Street address">
+                    </div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-md-2 control-label" 
+                           for="street2Id">Street Address 2</label>
+					<div class="col-md-5">
+                        <input type="text" 
+                            class="form-control" 
+                            id="street2Id"
+                            placeholder="Street address (second line)">
+                    </div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-md-2 control-label" 
+                           for="cityId">City, State, Zip Code</label>
+					<div class="col-md-2">
+                        <input type="text" 
+                               class="form-control" 
+                               id="cityId" 
+                               placeholder="City">
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-control"
+                                id="stateId">
+                            <option value="" disabled selected hidden>Select a State...</option>
+                            <option value="AL">Alabama</option>
+                            <option value="AK">Alaska</option>
+                            <option value="AZ">Arizona</option>
+                            <option value="AR">Arkansas</option>
+                            <option value="CA">California</option>
+                            <option value="CO">Colorado</option>
+                            <option value="CT">Connecticut</option>
+                            <option value="DE">Delaware</option>
+                            <option value="DC">District Of Columbia</option>
+                            <option value="FL">Florida</option>
+                            <option value="GA">Georgia</option>
+                            <option value="HI">Hawaii</option>
+                            <option value="ID">Idaho</option>
+                            <option value="IL">Illinois</option>
+                            <option value="IN">Indiana</option>
+                            <option value="IA">Iowa</option>
+                            <option value="KS">Kansas</option>
+                            <option value="KY">Kentucky</option>
+                            <option value="LA">Louisiana</option>
+                            <option value="ME">Maine</option>
+                            <option value="MD">Maryland</option>
+                            <option value="MA">Massachusetts</option>
+                            <option value="MI">Michigan</option>
+                            <option value="MN">Minnesota</option>
+                            <option value="MS">Mississippi</option>
+                            <option value="MO">Missouri</option>
+                            <option value="MT">Montana</option>
+                            <option value="NE">Nebraska</option>
+                            <option value="NV">Nevada</option>
+                            <option value="NH">New Hampshire</option>
+                            <option value="NJ">New Jersey</option>
+                            <option value="NM">New Mexico</option>
+                            <option value="NY">New York</option>
+                            <option value="NC">North Carolina</option>
+                            <option value="ND">North Dakota</option>
+                            <option value="OH">Ohio</option>
+                            <option value="OK">Oklahoma</option>
+                            <option value="OR">Oregon</option>
+                            <option value="PA">Pennsylvania</option>
+                            <option value="RI">Rhode Island</option>
+                            <option value="SC">South Carolina</option>
+                            <option value="SD">South Dakota</option>
+                            <option value="TN">Tennessee</option>
+                            <option value="TX">Texas</option>
+                            <option value="UT">Utah</option>
+                            <option value="VT">Vermont</option>
+                            <option value="VA">Virginia</option>
+                            <option value="WA">Washington</option>
+                            <option value="WV">West Virginia</option>
+                            <option value="WI">Wisconsin</option>
+                            <option value="WY">Wyoming</option>
+                        </select>
+                    </div>
+                    <div class="col-md-1">
+					<input type="text" 
+                           class="form-control" 
+                           id="zipId" 
+                           placeholder="Zip Code">
+				    </div>
+                </div>
+
+
+
+				<div class="form-group">
+					<div class="col-md-4 col-md-offset-2">
+						<span>
+                            <button class="btn btn-primary"
+                                    type="submit">
+                                Save
+                            </button>
+                        </span>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>
