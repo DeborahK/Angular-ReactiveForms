@@ -5,9 +5,11 @@
 
     <div class="panel-body">
         <form class="form-horizontal"
+              (ngSubmit)="save()"
               #signupForm="ngForm">
             <fieldset>
-                <div class="form-group">
+                <div class="form-group"
+                    [ngClass]="{'has-error': (firstNameVar.touched || firstNameVar.dirty) && !firstNameVar.valid }">
                     <label class="col-md-2 control-label" 
                            for="firstNameId">First Name</label>
 
@@ -17,10 +19,18 @@
                                type="text" 
                                placeholder="First Name (required)" 
                                required 
-                               maxlength="50"
-                               ngModel
+                               minlength="3"
+                               [(ngModel)]=customer.firstName
                                name="firstName"
                                #firstNameVar="ngModel" />
+                        <span class="help-block" *ngIf="(firstNameVar.touched || firstNameVar.dirty) && firstNameVar.errors">
+                            <span *ngIf="firstNameVar.errors.required">
+                                Please enter your first name.
+                            </span>
+                            <span *ngIf="firstNameVar.errors.minlength">
+                                The first name must be longer than 3 characters.
+                            </span>
+                        </span>
                     </div>
                 </div>
 
@@ -35,7 +45,7 @@
                                placeholder="Last Name (required)" 
                                required 
                                maxlength="50"
-                               ngModel
+                               [(ngModel)]="customer.lastName"
                                name="lastName"
                                #lastNameVar="ngModel" />
                     </div>
@@ -51,7 +61,7 @@
                                type="email" 
                                placeholder="Email (required)" 
                                required
-                               ngModel
+                               [(ngModel)]="customer.email"
                                name="email"
                                #emailVar="ngModel" />
                     </div>
@@ -63,31 +73,30 @@
                             <input id="addressTypeId"
                                    type="checkbox"
                                    [checked]="myvar"
-                                   ngModel
-                                   name="sendCatalog"
-                                   #sendCatalogVar="ngModel" >
+                                   [(ngModel)]="customer.sendCatalog"
+                                   name="sendCatalog" >
                             Send me your catalog
                         </label>
                     </div>
                 </div>
                 
-                <div *ngIf="sendCatalogVar.value">
+                <div *ngIf="customer.sendCatalog">
                     <div class="form-group" >
                         <label class="col-md-2 control-label">Address Type</label>
                         <div class="col-md-8">
                                 <label class="radio-inline">
                                     <input type="radio" id="addressType1Id" value="home" checked
-                                           ngModel
+                                           [(ngModel)]="customer.addressType"
                                            name="addressType">Home
                                 </label>
                                 <label class="radio-inline">
                                     <input type="radio" id="addressType1Id" value="work"
-                                           ngModel
+                                           [(ngModel)]="customer.addressType"
                                            name="addressType">Work
                                 </label>
                                 <label class="radio-inline">
                                     <input type="radio" id="addressType1Id" value="other"
-                                           ngModel
+                                           [(ngModel)]="customer.addressType"
                                            name="addressType">Other
                                 </label>
                         </div>
@@ -101,7 +110,7 @@
                                    class="form-control" 
                                    id="street1Id" 
                                    placeholder="Street address"
-                                   ngModel
+                                   [(ngModel)]="customer.street1"
                                    name="street1">
                         </div>
                     </div>
@@ -114,7 +123,7 @@
                                    class="form-control" 
                                    id="street2Id"
                                    placeholder="Street address (second line)"
-                                   ngModel
+                                   [(ngModel)]="customer.street2"
                                    name="street2">
                         </div>
                     </div>
@@ -127,13 +136,13 @@
                                    class="form-control" 
                                    id="cityId" 
                                    placeholder="City"
-                                   ngModel
+                                   [(ngModel)]="customer.city"
                                    name="city">
                         </div>
                         <div class="col-md-3">
                             <select class="form-control"
                                     id="stateId"
-                                    ngModel
+                                    [(ngModel)]="customer.state"
                                     name="state">
                                 <option value="" disabled selected hidden>Select a State...</option>
                                 <option value="AL">Alabama</option>
@@ -151,7 +160,7 @@
                                    class="form-control" 
                                    id="zipId" 
                                    placeholder="Zip Code"
-                                   ngModel
+                                   [(ngModel)]="customer.zip"
                                    name="zip">
                         </div>
                     </div>
@@ -172,4 +181,7 @@
         </form>
     </div>
 </div>
-<h3>{{ signupForm.value | json }}</h3>
+Dirty: {{ signupForm.dirty }} 
+<br>Touched: {{ signupForm.touched }}
+<br>Valid: {{ signupForm.valid }}
+<br>Value: {{ signupForm.value | json }}
