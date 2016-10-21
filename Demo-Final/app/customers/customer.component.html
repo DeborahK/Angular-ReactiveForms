@@ -34,7 +34,8 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group"
+                    [ngClass]="{'has-error': (lastNameVar.touched || lastNameVar.dirty) && !lastNameVar.valid }">
                     <label class="col-md-2 control-label" 
                         for="lastNameId">Last Name</label>
 
@@ -48,10 +49,16 @@
                                [(ngModel)]="customer.lastName"
                                name="lastName"
                                #lastNameVar="ngModel" />
+                        <span class="help-block" *ngIf="(lastNameVar.touched || lastNameVar.dirty) && lastNameVar.errors">
+                            <span *ngIf="lastNameVar.errors.required">
+                                Please enter your last name.
+                            </span>
+                        </span>
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group"
+                    [ngClass]="{'has-error': (emailVar.touched || emailVar.dirty) && !emailVar.valid }">
                     <label class="col-md-2 control-label" 
                         for="emailId">Email</label>
 
@@ -64,6 +71,15 @@
                                [(ngModel)]="customer.email"
                                name="email"
                                #emailVar="ngModel" />
+                        <span class="help-block" *ngIf="(emailVar.touched || emailVar.dirty) && emailVar.errors">
+                            <span *ngIf="emailVar.errors.required">
+                                Please enter your email address.
+                            </span>
+                            <!-- This one does not work -->
+                            <span *ngIf="emailVar.errors.email">
+                                Please enter a valid email address.
+                            </span>
+                        </span>
                     </div>
                 </div>
 
