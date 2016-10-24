@@ -1,5 +1,5 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import {NgForm} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 
 import { Customer } from './customer'
 
@@ -7,16 +7,22 @@ import { Customer } from './customer'
     selector: 'my-signup',
     templateUrl: './app/customers/customer.component.html'
 })
-export class CustomerComponent implements AfterViewInit {
-    @ViewChild(NgForm) entryForm:NgForm;
-
+export class CustomerComponent implements OnInit {
+    customerForm: FormGroup;
     customer: Customer= new Customer();
 
-    ngAfterViewInit() {
-        console.log(this.entryForm.form);
+    constructor(private fb: FormBuilder) { }
+
+    ngOnInit(): void {
+        this.customerForm = this.fb.group({
+            firstName: '',
+            lastName: '',
+            email: '',
+            sendCatalog: true
+        });
     }
 
     save() {
-        console.log("Saved: " + JSON.stringify(this.entryForm.value));
+        console.log("Saved: ");
     }
  }
