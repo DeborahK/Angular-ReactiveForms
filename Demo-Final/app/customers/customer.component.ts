@@ -4,8 +4,10 @@ import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl } from
 import { Customer } from './customer';
 
 function ratingRange(min: number, max: number): ValidatorFn {
-    return (c: AbstractControl): { [key: string]: boolean } | null => {
-        if (c.value && (isNaN(c.value) || c.value < min || c.value > max)) {
+    return (c: AbstractControl): 
+            { [key: string]: boolean } | null => {
+        if (c.value && 
+            (isNaN(c.value) || c.value < min || c.value > max)) {
             return { 'range': true };
         }
         return null;
@@ -16,17 +18,14 @@ function emailMatcher(c: AbstractControl) {
     let emailControl = c.get('email');
     let confirmControl = c.get('confirmEmail');
 
-    // Don't kick in until user touches both fields   
     if (emailControl.pristine || confirmControl.pristine) {
       return null;
     }
 
     if (emailControl.value === confirmControl.value) {
         return null;
-    } else {
-        //emailControl.setErrors({ 'match': true });
-        //confirmControl.setErrors({ 'match': true });
-        return { 'match': true };
+    } 
+    return { 'match': true };
     }
 }
 
@@ -56,7 +55,7 @@ export class CustomerComponent implements OnInit {
     }
 
     save(): void {
-        console.log('Saved: ' + JSON.stringify(this.customerForm.value);
+        console.log('Saved: ' + JSON.stringify(this.customerForm.value));
     }
 
     setNotification(notifyVia: string): void {

@@ -21,8 +21,6 @@
                                id="firstNameId" 
                                type="text" 
                                placeholder="First Name (required)" 
-                               required 
-                               minlength="3"
                                formControlName="firstName" />
                         <span class="help-block" *ngIf="(customerForm.controls.firstName.touched || 
                                                          customerForm.controls.firstName.dirty) && 
@@ -64,9 +62,7 @@
                 </div>
 
                 <div formGroupName="emailGroup"
-                     [ngClass]="{'has-error': customerForm.get('emailGroup.email').dirty &&
-                                              customerForm.get('emailGroup.confirmEmail').dirty &&
-                                              customerForm.get('emailGroup').errors && 
+                     [ngClass]="{'has-error': customerForm.get('emailGroup').errors && 
                                               customerForm.get('emailGroup').errors.match }">
                     <div class="form-group"
                         [ngClass]="{'has-error': (customerForm.get('emailGroup.email').touched || 
@@ -90,9 +86,6 @@
                                 <span *ngIf="customerForm.get('emailGroup.email').errors.pattern">
                                     Please enter a valid email address.
                                 </span>
-                                <span *ngIf="customerForm.get('emailGroup.email').errors.match">
-                                    The email address does not match the confirmation.
-                                </span>
                             </span>
                         </div>
                     </div>
@@ -115,10 +108,7 @@
                                                             customerForm.get('emailGroup.confirmEmail').errors">
                                 <span *ngIf="customerForm.get('emailGroup.confirmEmail').errors.required">
                                     Please confirm your email address.
-                                </span>
-                                <span *ngIf="customerForm.get('emailGroup.email').errors.match">
-                                    The confirmation does not match the email address.
-                                </span>                            
+                                </span>                          
                             </span>
                         </div>
                     </div>
@@ -194,8 +184,8 @@
                                id="ratingId" 
                                type="number" 
                                formControlName = "rating" />
-                        <span class="help-block" *ngIf="(customerForm.controls.rating.touched 
-                                                         || customerForm.controls.rating.dirty) && 
+                        <span class="help-block" *ngIf="(customerForm.controls.rating.touched ||
+                                                         customerForm.controls.rating.dirty) && 
                                                          customerForm.controls.rating.errors">
                              <span *ngIf="customerForm.controls.rating.errors.range">
                                 Please rate your experience from 1 to 5.
