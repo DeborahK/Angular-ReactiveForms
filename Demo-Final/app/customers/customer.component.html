@@ -5,11 +5,12 @@
 
     <div class="panel-body">
         <form class="form-horizontal"
+              novalidate
               (ngSubmit)="save()"
               [formGroup]="customerForm">
             <fieldset>
                 <div class="form-group"
-                    [ngClass]="{'has-error': (customerForm.controls.firstName.touched || 
+                    [ngClass]="{'has-error': (customerForm.get('firstName').touched || 
                                               customerForm.controls.firstName.dirty) &&
                                               !customerForm.controls.firstName.valid }">
                     <label class="col-md-2 control-label" 
@@ -48,8 +49,6 @@
                                id="lastNameId" 
                                type="text" 
                                placeholder="Last Name (required)" 
-                               required 
-                               maxlength="50"
                                formControlName = "lastName" />
                         <span class="help-block" *ngIf="(customerForm.controls.lastName.touched 
                                                          || customerForm.controls.lastName.dirty) && 
@@ -57,46 +56,151 @@
                             <span *ngIf="customerForm.controls.lastName.errors.required">
                                 Please enter your last name.
                             </span>
-                        </span>
+                             <span *ngIf="customerForm.controls.lastName.errors.maxlength">
+                                The last name must be less than 50 characters.
+                            </span>
+                       </span>
+                    </div>
+                </div>
+
+                <div formGroupName="emailGroup"
+                     [ngClass]="{'has-error': customerForm.get('emailGroup.email').dirty &&
+                                              customerForm.get('emailGroup.confirmEmail').dirty &&
+                                              customerForm.get('emailGroup').errors && 
+                                              customerForm.get('emailGroup').errors.match }">
+                    <div class="form-group"
+                        [ngClass]="{'has-error': (customerForm.get('emailGroup.email').touched || 
+                                                customerForm.get('emailGroup.email').dirty) && 
+                                                !customerForm.get('emailGroup.email').valid }">
+                        <label class="col-md-2 control-label" 
+                            for="emailId">Email</label>
+
+                        <div class="col-md-8">
+                            <input class="form-control" 
+                                id="emailId" 
+                                type="email" 
+                                placeholder="Email (required)" 
+                                formControlName = "email" />
+                            <span class="help-block" *ngIf="(customerForm.get('emailGroup.email').touched || 
+                                                            customerForm.get('emailGroup.email').dirty) && 
+                                                            customerForm.get('emailGroup.email').errors">
+                                <span *ngIf="customerForm.get('emailGroup.email').errors.required">
+                                    Please enter your email address.
+                                </span>
+                                <span *ngIf="customerForm.get('emailGroup.email').errors.pattern">
+                                    Please enter a valid email address.
+                                </span>
+                                <span *ngIf="customerForm.get('emailGroup.email').errors.match">
+                                    The email address does not match the confirmation.
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group"
+                        [ngClass]="{'has-error': (customerForm.get('emailGroup.confirmEmail').touched || 
+                                                  customerForm.get('emailGroup.confirmEmail').dirty) && 
+                                                  !customerForm.get('emailGroup.confirmEmail').valid }">
+                        <label class="col-md-2 control-label" 
+                            for="confirmEmailId">Confirm Email</label>
+
+                        <div class="col-md-8">
+                            <input class="form-control" 
+                                id="confirmEmailId" 
+                                type="email" 
+                                placeholder="Confirm Email (required)" 
+                                formControlName = "confirmEmail" />
+                            <span class="help-block" *ngIf="(customerForm.get('emailGroup.confirmEmail').touched || 
+                                                            customerForm.get('emailGroup.confirmEmail').dirty) && 
+                                                            customerForm.get('emailGroup.confirmEmail').errors">
+                                <span *ngIf="customerForm.get('emailGroup.confirmEmail').errors.required">
+                                    Please confirm your email address.
+                                </span>
+                                <span *ngIf="customerForm.get('emailGroup.email').errors.match">
+                                    The confirmation does not match the email address.
+                                </span>                            
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-8">
+                            <span class="help-block" *ngIf="customerForm.get('emailGroup').errors">
+                                <span *ngIf="customerForm.get('emailGroup').errors.match">
+                                    The email address does not match the confirmation.
+                                </span>
+                            </span>
+                        </div>
                     </div>
                 </div>
 
                 <div class="form-group"
-                    [ngClass]="{'has-error': (customerForm.controls.email.touched || 
-                                              customerForm.controls.email.dirty) && 
-                                              !customerForm.controls.email.valid }">
+                    [ngClass]="{'has-error': !customerForm.controls.phone.valid }">
                     <label class="col-md-2 control-label" 
-                        for="emailId">Email</label>
+                        for="phoneId">Phone</label>
 
                     <div class="col-md-8">
                         <input class="form-control" 
-                               id="emailId" 
-                               type="email" 
-                               placeholder="Email (required)" 
-                               required
-                               formControlName = "email" />
-                        <span class="help-block" *ngIf="(customerForm.controls.email.touched || 
-                                                         customerForm.controls.email.dirty) && 
-                                                         customerForm.controls.email.errors">
-                            <span *ngIf="customerForm.controls.email.errors.required">
-                                Please enter your email address.
-                            </span>
-                            <!-- This one does not work -->
-                            <span *ngIf="customerForm.controls.email.errors.email">
-                                Please enter a valid email address.
+                               id="phoneId" 
+                               type="tel" 
+                               placeholder="Phone" 
+                               formControlName = "phone" />
+                        <span class="help-block" *ngIf="customerForm.controls.phone.errors">
+                            <span *ngIf="customerForm.controls.phone.errors.required">
+                                Please enter your phone number.
                             </span>
                         </span>
+                    </div>
+                </div>
+                
+                <div class="form-group" >
+                    <label class="col-md-2 control-label">Send Notifications</label>
+                    <div class="col-md-8">
+                            <label class="radio-inline">
+                                <input type="radio" 
+                                       value="email" 
+                                       formControlName="notification"
+                                       (click)="setNotification('email')">Email
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" 
+                                       value="text" 
+                                       formControlName="notification"
+                                       (click)="setNotification('text')">Text
+                            </label>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-md-offset-1 col-md-8 checkbox" >
                         <label>
-                            <input id="addressTypeId"
+                            <input id="sendCatalogId"
                                    type="checkbox"
                                    formControlName = "sendCatalog" >
                             Send me your catalog
                         </label>
+                    </div>
+                </div>
+
+
+                <div class="form-group"
+                    [ngClass]="{'has-error': (customerForm.controls.rating.touched || 
+                                              customerForm.controls.rating.dirty) && 
+                                              !customerForm.controls.rating.valid }">
+                    <label class="col-md-2 control-label" 
+                        for="ratingId">Rating</label>
+
+                    <div class="col-md-8">
+                        <input class="form-control" 
+                               id="ratingId" 
+                               type="number" 
+                               formControlName = "rating" />
+                        <span class="help-block" *ngIf="(customerForm.controls.rating.touched 
+                                                         || customerForm.controls.rating.dirty) && 
+                                                         customerForm.controls.rating.errors">
+                             <span *ngIf="customerForm.controls.rating.errors.range">
+                                Please rate your experience from 1 to 5.
+                            </span>
+                       </span>
                     </div>
                 </div>
 <!--                
@@ -201,7 +305,8 @@
         </form>
     </div>
 </div>
-Dirty: {{ customerForm .dirty }} 
-<br>Touched: {{ customerForm .touched }}
-<br>Valid: {{ customerForm .valid }}
-<br>Value: {{ customerForm .value | json }}
+Dirty: {{ customerForm.dirty }} 
+<br>Touched: {{ customerForm.touched }}
+<br>Valid: {{ customerForm.valid }}
+<br>Errors: {{ customerForm.get('emailGroup').errors | json}}
+<br>Value: {{ customerForm.value | json }}
