@@ -4,9 +4,9 @@ import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl } from
 import { Customer } from './customer';
 
 function ratingRange(min: number, max: number): ValidatorFn {
-    return (c: AbstractControl): 
-            { [key: string]: boolean } | null => {
-        if (c.value && 
+    return (c: AbstractControl):
+        { [key: string]: boolean } | null => {
+        if (c.value &&
             (isNaN(c.value) || c.value < min || c.value > max)) {
             return { 'range': true };
         }
@@ -19,14 +19,13 @@ function emailMatcher(c: AbstractControl) {
     let confirmControl = c.get('confirmEmail');
 
     if (emailControl.pristine || confirmControl.pristine) {
-      return null;
+        return null;
     }
 
     if (emailControl.value === confirmControl.value) {
         return null;
-    } 
-    return { 'match': true };
     }
+    return { 'match': true };
 }
 
 @Component({
@@ -51,6 +50,18 @@ export class CustomerComponent implements OnInit {
             notification: 'email',
             sendCatalog: true,
             rating: [null, ratingRange(1, 5)]
+        });
+
+        this.customerForm.get('notification').valueChanges.subscribe(value => {
+            this.setNotification(value);
+        });
+
+        this.customerForm.get('emailGroup').valueChanges.subscribe(value => {
+            console.log(JSON.stringify(value));
+        });
+
+        this.customerForm.valueChanges.subscribe(value => {
+            console.log(JSON.stringify(value));
         });
     }
 
