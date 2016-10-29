@@ -35,6 +35,12 @@ function emailMatcher(c: AbstractControl) {
 export class CustomerComponent implements OnInit {
     customerForm: FormGroup;
     customer: Customer = new Customer();
+    emailMessage: string;
+
+    private validationMessages = {
+        required: 'Please enter your email address.',
+        pattern: 'Please enter a valid email address.'
+    };
 
     constructor(private fb: FormBuilder) { }
 
@@ -56,17 +62,26 @@ export class CustomerComponent implements OnInit {
             this.setNotification(value);
         });
 
-        this.customerForm.get('emailGroup').valueChanges.subscribe(value => {
-            console.log(JSON.stringify(value));
-        });
-
-        this.customerForm.valueChanges.subscribe(value => {
-            console.log(JSON.stringify(value));
+        let emailControl = this.customerForm.get('emailGroup.email');
+        emailControl.valueChanges.subscribe(value => {
+            this.setMessage(emailControl);
         });
     }
 
     save(): void {
         console.log('Saved: ' + JSON.stringify(this.customerForm.value));
+    }
+
+    setMessage(c: AbstractControl) {
+        this.emailMessage='';
+        if ((c.touched || c.dirty) &&
+            c.errors) {
+            for (let key in c.errors) {
+                if (c.errors.hasOwnProperty(key)) {
+                    this.emailMessage += this.validationMessages[key];
+                }
+            }
+        }
     }
 
     setNotification(notifyVia: string): void {
