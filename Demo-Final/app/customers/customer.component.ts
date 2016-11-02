@@ -59,7 +59,7 @@ export class CustomerComponent implements OnInit {
             notification: 'email',
             rating: [null, ratingRange(1, 5)],
             sendCatalog: true,
-            addressGroup: this.buildAddress()
+            addressArray: this.buildAddressArray()
         });
 
         this.customerForm.get('notification').valueChanges.subscribe(value => {
@@ -70,6 +70,10 @@ export class CustomerComponent implements OnInit {
         emailControl.valueChanges.debounceTime(1000).subscribe(value => {
             this.setMessage(emailControl);
         });
+    }
+
+    addAddress(): void {
+        this.addresses.push(this.buildAddress());
     }
 
     buildAddress(): FormGroup {

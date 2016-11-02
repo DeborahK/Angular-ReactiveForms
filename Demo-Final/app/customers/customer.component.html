@@ -182,81 +182,97 @@
                     </div>
                 </div>
 
-                <div *ngIf="this.customerForm.get('sendCatalog').value"
-                     formGroupName="addressGroup">
-                    <div class="form-group" >
-                        <label class="col-md-2 control-label">Address Type</label>
-                        <div class="col-md-8">
-                                <label class="radio-inline">
-                                    <input type="radio" id="addressType1Id" value="home"
-                                    formControlName="addressType">Home
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" id="addressType1Id" value="work"
-                                    formControlName="addressType">Work
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" id="addressType1Id" value="other"
-                                    formControlName="addressType">Other
-                                </label>
+                <div *ngIf="customerForm.get('sendCatalog').value">
+                    <div formArrayName="addressArray" *ngFor="let address of addresses.controls; let i=index">
+                        <div [formGroupName]="i">
+                            <div class="form-group" >
+                                <label class="col-md-2 control-label">Address Type</label>
+                                <div class="col-md-8">
+                                        <label class="radio-inline">
+                                            <input type="radio" id="addressType1Id" value="home"
+                                            formControlName="addressType">Home
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" id="addressType1Id" value="work"
+                                            formControlName="addressType">Work
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" id="addressType1Id" value="other"
+                                            formControlName="addressType">Other
+                                        </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" 
+                                    for="street1Id">Street Address 1</label>
+                                <div class="col-md-8">
+                                    <input type="text" 
+                                        class="form-control" 
+                                        id="street1Id" 
+                                        placeholder="Street address"
+                                        formControlName="street1">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" 
+                                    for="street2Id">Street Address 2</label>
+                                <div class="col-md-8">
+                                    <input type="text" 
+                                        class="form-control" 
+                                        id="street2Id"
+                                        placeholder="Street address (second line)"
+                                        formControlName="street2">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" 
+                                    for="cityId">City, State, Zip Code</label>
+                                <div class="col-md-3">
+                                    <input type="text" 
+                                        class="form-control" 
+                                        id="cityId" 
+                                        placeholder="City"
+                                        formControlName="city">
+                                </div>
+                                <div class="col-md-3">
+                                    <select class="form-control"
+                                            id="stateId"
+                                            formControlName="state">
+                                        <option value="" disabled selected hidden>Select a State...</option>
+                                        <option value="AL">Alabama</option>
+                                        <option value="AK">Alaska</option>
+                                        <option value="AZ">Arizona</option>
+                                        <option value="AR">Arkansas</option>
+                                        <option value="CA">California</option>
+                                        <option value="CO">Colorado</option>
+                                        <option value="WI">Wisconsin</option>
+                                        <option value="WY">Wyoming</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                <input type="number"
+                                        class="form-control" 
+                                        id="zipId" 
+                                        placeholder="Zip Code"
+                                        formControlName="zip">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="col-md-2 control-label" 
-                            for="street1Id">Street Address 1</label>
-                        <div class="col-md-8">
-                            <input type="text" 
-                                   class="form-control" 
-                                   id="street1Id" 
-                                   placeholder="Street address"
-                                   formControlName="street1">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-md-2 control-label" 
-                            for="street2Id">Street Address 2</label>
-                        <div class="col-md-8">
-                            <input type="text" 
-                                   class="form-control" 
-                                   id="street2Id"
-                                   placeholder="Street address (second line)"
-                                   formControlName="street2">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-md-2 control-label" 
-                            for="cityId">City, State, Zip Code</label>
-                        <div class="col-md-3">
-                            <input type="text" 
-                                   class="form-control" 
-                                   id="cityId" 
-                                   placeholder="City"
-                                   formControlName="city">
-                        </div>
-                        <div class="col-md-3">
-                            <select class="form-control"
-                                    id="stateId"
-                                    formControlName="state">
-                                <option value="" disabled selected hidden>Select a State...</option>
-                                <option value="AL">Alabama</option>
-                                <option value="AK">Alaska</option>
-                                <option value="AZ">Arizona</option>
-                                <option value="AR">Arkansas</option>
-                                <option value="CA">California</option>
-                                <option value="CO">Colorado</option>
-                                <option value="WI">Wisconsin</option>
-                                <option value="WY">Wyoming</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                        <input type="number"
-                                   class="form-control" 
-                                   id="zipId" 
-                                   placeholder="Zip Code"
-                                   formControlName="zip">
+                        <div class="col-md-4 col-md-offset-2">
+                            <span>
+                                <button class="btn btn-primary"
+                                        type="button"
+                                        [disabled]="!customerForm.get('addressArray').valid"
+                                        (click)="addAddress()">
+                                    Add Another Address
+                                </button>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -280,4 +296,5 @@ Dirty: {{ customerForm.dirty }}
 <br>Touched: {{ customerForm.touched }}
 <br>Valid: {{ customerForm.valid }}
 <br>Errors: {{ customerForm.get('emailGroup').errors | json}}
+<br>Street: {{ customerForm.get('addressArray.2.street1')?.value }}
 <br>Value: {{ customerForm.value | json }}
