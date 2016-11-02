@@ -68,6 +68,7 @@
                                type="email" 
                                placeholder="Email (required)" 
                                required
+                               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+"
                                [(ngModel)]="customer.email"
                                name="email"
                                #emailVar="ngModel" />
@@ -75,6 +76,10 @@
                             <span *ngIf="emailVar.errors.required">
                                 Please enter your email address.
                             </span>
+                            <span *ngIf="emailVar.errors.pattern">
+                                The confirmation does not match the email address.
+                            </span>
+
                             <!-- This one does not work -->
                             <span *ngIf="emailVar.errors.email">
                                 Please enter a valid email address.
