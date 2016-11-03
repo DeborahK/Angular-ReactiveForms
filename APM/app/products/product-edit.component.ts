@@ -15,7 +15,7 @@ import { NumberValidators } from '../shared/number.validator';
 import { GenericValidator } from '../shared/generic-validator';
 
 @Component({
-    templateUrl: 'app/products/product-edit.component.html'
+    templateUrl: './app/products/product-edit.component.html'
 })
 export class ProductEditComponent implements OnInit, OnDestroy {
     @ViewChildren(FormControlName, { read: ElementRef }) formControls: ElementRef[];
@@ -49,6 +49,7 @@ export class ProductEditComponent implements OnInit, OnDestroy {
                 range: 'Rate the product between 1 (lowest) and 5 (highest).'
             }
         };
+
         this.genericValidator = new GenericValidator(this.validationMessages);
     }
 
@@ -86,21 +87,24 @@ export class ProductEditComponent implements OnInit, OnDestroy {
 
         this.productForm = this.fb.group({
             productName: [this.product.productName,
-                            [Validators.required,
-                            Validators.minLength(3),
-                            Validators.maxLength(50)]],
+            [Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(50)]],
             productCode: [this.product.productCode, Validators.required],
             starRating: [this.product.starRating,
-                        NumberValidators.range(1, 5)],
-            tags: this.buildTagArray(),
-            description: [this.product.description]
+            NumberValidators.range(1, 5)],
+            tagArray: this.buildTagArray(),
+            description: this.product.description
         });
 
-        let controlBlurs: Observable<any>[] = this.formControls
-            .map((formControl: ElementRef) => Observable.fromEvent(formControl.nativeElement, 'blur'));
+        // wait a tick
+        setTimeout(() => {
+            let controlBlurs: Observable<any>[] = this.formControls
+                .map((formControl: ElementRef) => Observable.fromEvent(formControl.nativeElement, 'blur'));
 
-        Observable.merge(this.productForm.valueChanges, ...controlBlurs).debounceTime(800).subscribe(value => {
-            this.displayMessage = this.genericValidator.processMessages(this.productForm);
+            Observable.merge(this.productForm.valueChanges, ...controlBlurs).debounceTime(800).subscribe(value => {
+                this.displayMessage = this.genericValidator.processMessages(this.productForm);
+            });
         });
     }
 
@@ -123,7 +127,6 @@ export class ProductEditComponent implements OnInit, OnDestroy {
     }
 
     saveProduct() {
-        console.log(this.productForm);
         if (this.productForm.dirty && this.productForm.valid) {
             this.product = this.productForm.value;
             alert(`Movie: ${JSON.stringify(this.productForm.value)}`);

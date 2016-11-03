@@ -25,7 +25,6 @@ export class GenericValidator {
     // controlName2: 'Validation Message.'
     processMessages(container: FormGroup): { [key: string]: string } {
         let messages = {};
-        console.log("In processMessages");
         for (let controlKey in container.controls) {
             if (container.controls.hasOwnProperty(controlKey)) {
                 let c = container.controls[controlKey];

@@ -17,7 +17,7 @@ export class ProductService {
     getProducts(): Observable<IProduct[]> {
         return this._http.get(this._productUrl)
             .map((response: Response) => <IProduct[]> response.json())
-            //.do(data => console.log('All: ' +  JSON.stringify(data)))
+            .do(data => console.log('All: ' +  JSON.stringify(data)))
             .catch(this.handleError);
     }
 
@@ -26,14 +26,14 @@ export class ProductService {
             .map((products: IProduct[]) => this.handleMap(products, id));
     }
 
-    private handleError(error: Response) {
+    private handleError(error: Response): Observable<any> {
         // in a real world app, we may send the server to some remote logging infrastructure
         // instead of just logging it to the console
         console.error(error);
         return Observable.throw(error.json().error || 'Server error');
     }
 
-    private handleMap(products: IProduct[], id: number) {
+    private handleMap(products: IProduct[], id: number): IProduct {
         // Return an initialized object
         if (id === 0) {
             return {
@@ -50,5 +50,5 @@ export class ProductService {
         }
         let filtered = products.filter(p => p.productId === id);
         return <IProduct> filtered[0];
-    }    
+    }
 }
