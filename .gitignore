@@ -5,7 +5,7 @@ node_modules
 jspm_packages
 bower_components
 
-*.log
+*.log/*.*
 
 .vs
 **/*.sou

@@ -27,7 +27,7 @@ export class ProductEditComponent implements OnInit, OnDestroy {
 
     productForm: FormGroup;
     displayMessage: { [key: string]: string } = {};
-    private validationMessages: { [key: string]: { [key: string]: string } }
+    private validationMessages: { [key: string]: { [key: string]: string } };
     genericValidator: GenericValidator;
     tags: FormArray;
 
@@ -73,6 +73,9 @@ export class ProductEditComponent implements OnInit, OnDestroy {
     }
 
     onProductRetrieved(product: IProduct) {
+        if (this.productForm) {
+            this.productForm.reset();
+        }
         this.product = product;
 
         if (this.product.productId === 0) {
@@ -99,7 +102,6 @@ export class ProductEditComponent implements OnInit, OnDestroy {
         Observable.merge(this.productForm.valueChanges, ...controlBlurs).debounceTime(800).subscribe(value => {
             this.displayMessage = this.genericValidator.processMessages(this.productForm);
         });
-
     }
 
     addTag(defaultValue: string): void {
@@ -109,7 +111,9 @@ export class ProductEditComponent implements OnInit, OnDestroy {
     buildTagArray(): FormArray {
         this.tags = new FormArray([]);
         for (let t in this.product.tags) {
-            this.addTag(this.product.tags[t]);
+            if (this.product.tags.hasOwnProperty(t)) {
+                this.addTag(this.product.tags[t]);
+            }
         }
         return this.tags;
     }

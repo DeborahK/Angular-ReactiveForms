@@ -17,13 +17,13 @@ export class ProductService {
     getProducts(): Observable<IProduct[]> {
         return this._http.get(this._productUrl)
             .map((response: Response) => <IProduct[]> response.json())
-            .do(data => console.log('All: ' +  JSON.stringify(data)))
+            //.do(data => console.log('All: ' +  JSON.stringify(data)))
             .catch(this.handleError);
     }
 
     getProduct(id: number): Observable<IProduct> {
         return this.getProducts()
-            .map((products: IProduct[]) => products.find(p => p.productId === id));
+            .map((products: IProduct[]) => this.handleMap(products, id));
     }
 
     private handleError(error: Response) {
@@ -32,4 +32,23 @@ export class ProductService {
         console.error(error);
         return Observable.throw(error.json().error || 'Server error');
     }
+
+    private handleMap(products: IProduct[], id: number) {
+        // Return an initialized object
+        if (id === 0) {
+            return {
+                productId: 0,
+                productName: null,
+                productCode: null,
+                tags: [''],
+                releaseDate: null,
+                price: null,
+                description: null,
+                starRating: null,
+                imageUrl: null
+            };
+        }
+        let filtered = products.filter(p => p.productId === id);
+        return <IProduct> filtered[0];
+    }    
 }
