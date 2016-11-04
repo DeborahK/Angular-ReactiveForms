@@ -96,19 +96,14 @@
                                 formControlName = "confirmEmail" />
                             <span class="help-block" *ngIf="(customerForm.get('emailGroup.confirmEmail').touched || 
                                                             customerForm.get('emailGroup.confirmEmail').dirty) && 
-                                                            customerForm.get('emailGroup.confirmEmail').errors">
-                                <span *ngIf="customerForm.get('emailGroup.confirmEmail').errors.required">
+                                                            (customerForm.get('emailGroup.confirmEmail').errors ||
+                                                             customerForm.get('emailGroup').errors)">
+                                <span *ngIf="customerForm.get('emailGroup.confirmEmail').errors?.required">
                                     Please confirm your email address.
-                                </span>                          
-                            </span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-8">
-                            <span class="help-block" *ngIf="customerForm.get('emailGroup').errors">
-                                <span *ngIf="customerForm.get('emailGroup').errors.match">
-                                    The email address does not match the confirmation.
                                 </span>
+                                <span *ngIf="customerForm.get('emailGroup').errors?.match">
+                                    The confirmation does not match the email address.
+                                </span>                          
                             </span>
                         </div>
                     </div>
