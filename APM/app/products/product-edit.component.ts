@@ -108,7 +108,7 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
             this.pageTitle = `Edit Product: ${this.product.productName}`;
         }
 
-        // Update the data on the forms
+        // Update the data on the form
         this.productForm.patchValue({
             productName: this.product.productName,
             productCode: this.product.productCode,
@@ -130,7 +130,7 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.product && this.product.tags) {
             return this.fb.array(this.product.tags.map((tag) => {
                 return new FormControl(tag);
-            }))
+            }));
         } else {
             return new FormArray([]);
         }
