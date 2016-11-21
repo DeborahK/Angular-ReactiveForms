@@ -141,7 +141,6 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
             // Do nothing, it was never saved.
         } else {
             if (confirm(`Really delete the product: ${this.product.productName}?`)) {
-
                 this.productService.deleteProduct(this.product.id)
                     .subscribe(
                     () => this.router.navigate(['/products']),

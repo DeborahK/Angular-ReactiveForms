@@ -8,7 +8,7 @@ import { ProductData }  from './product-data';
 
 import { ProductListComponent } from './product-list.component';
 import { ProductDetailComponent } from './product-detail.component';
-import { ProductDetailGuard } from './product-guard.service';
+import { ProductDetailGuard, ProductEditGuard } from './product-guard.service';
 import { ProductEditComponent } from './product-edit.component';
 
 import { ProductFilterPipe } from './product-filter.pipe';
@@ -27,7 +27,9 @@ import { SharedModule } from '../shared/shared.module';
         canActivate: [ ProductDetailGuard],
         component: ProductDetailComponent
       },
-      { path: 'productEdit/:id', component: ProductEditComponent },
+      { path: 'productEdit/:id',
+        canDeactivate: [ ProductEditGuard ],
+        component: ProductEditComponent },
     ])
   ],
   declarations: [
@@ -38,7 +40,8 @@ import { SharedModule } from '../shared/shared.module';
   ],
   providers: [
     ProductService,
-    ProductDetailGuard
+    ProductDetailGuard,
+    ProductEditGuard
   ]
 })
 export class ProductModule {}
