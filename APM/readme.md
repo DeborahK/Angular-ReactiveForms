@@ -1,7 +1,7 @@
 
 ## Description
 
-The edit form in this reference application demonstrates: FormControls, FormGroups, FormArrays, custom validation, cross field validation, dynamically adding input elements, generic validation (including blur), and populating the form data from Http
+The edit form in this reference application demonstrates: FormControls, FormGroups, FormArrays, custom validation, dynamically adding input elements, generic validation (including blur), populating the form data from Http, and basic CRUD operations: Create, Read, Update, and Delete.
 
 ## Installation
 
