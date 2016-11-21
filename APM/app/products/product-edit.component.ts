@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChildren, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChildren, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, FormControlName, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -17,7 +17,7 @@ import { GenericValidator } from '../shared/generic-validator';
 @Component({
     templateUrl: './app/products/product-edit.component.html'
 })
-export class ProductEditComponent implements OnInit, OnDestroy {
+export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChildren(FormControlName, { read: ElementRef }) formControls: ElementRef[];
 
     pageTitle: string = 'Product Edit';
@@ -29,7 +29,6 @@ export class ProductEditComponent implements OnInit, OnDestroy {
     displayMessage: { [key: string]: string } = {};
     private validationMessages: { [key: string]: { [key: string]: string } };
     genericValidator: GenericValidator;
-    tags: FormArray;
 
     constructor(private fb: FormBuilder,
         private router: Router,
@@ -51,6 +50,7 @@ export class ProductEditComponent implements OnInit, OnDestroy {
         };
 
         this.genericValidator = new GenericValidator(this.validationMessages);
+
     }
 
     ngOnInit(): void {
@@ -60,20 +60,43 @@ export class ProductEditComponent implements OnInit, OnDestroy {
                 this.getProduct(id);
             }
         );
+
+        this.productForm = this.fb.group({
+            productName: ['', [Validators.required,
+                               Validators.minLength(3),
+                               Validators.maxLength(50)]],
+            productCode: ['', Validators.required],
+            starRating: ['', NumberValidators.range(1, 5)],
+            tags: this.buildTagArray(),
+            description: ''
+        });
     }
 
-    ngOnDestroy() {
+    ngAfterViewInit(): void {
+        let controlBlurs: Observable<any>[] = this.formControls
+            .map((formControl: ElementRef) => Observable.fromEvent(formControl.nativeElement, 'blur'));
+
+        Observable.merge(this.productForm.valueChanges, ...controlBlurs).debounceTime(800).subscribe(value => {
+            this.displayMessage = this.genericValidator.processMessages(this.productForm);
+        });
+    }
+
+    ngOnDestroy(): void {
         this.sub.unsubscribe();
     }
 
-    getProduct(id: number) {
+    get tags(): FormArray {
+        return <FormArray>this.productForm.get('tags');
+    }
+
+    getProduct(id: number): void {
         this._productService.getProduct(id)
             .subscribe(
             (product: IProduct) => this.onProductRetrieved(product),
             (error: any) => this.errorMessage = <any>error);
     }
 
-    onProductRetrieved(product: IProduct) {
+    onProductRetrieved(product: IProduct): void {
         if (this.productForm) {
             this.productForm.reset();
         }
@@ -85,45 +108,32 @@ export class ProductEditComponent implements OnInit, OnDestroy {
             this.pageTitle = `Edit Product: ${this.product.productName}`;
         }
 
-        this.productForm = this.fb.group({
-            productName: [this.product.productName,
-            [Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(50)]],
-            productCode: [this.product.productCode, Validators.required],
-            starRating: [this.product.starRating,
-            NumberValidators.range(1, 5)],
-            tagArray: this.buildTagArray(),
+        // Update the data on the form
+        this.productForm.patchValue({
+            productName: this.product.productName,
+            productCode: this.product.productCode,
+            starRating: this.product.starRating,
             description: this.product.description
         });
-
-        // wait a tick
-        setTimeout(() => {
-            let controlBlurs: Observable<any>[] = this.formControls
-                .map((formControl: ElementRef) => Observable.fromEvent(formControl.nativeElement, 'blur'));
-
-            Observable.merge(this.productForm.valueChanges, ...controlBlurs).debounceTime(800).subscribe(value => {
-                this.displayMessage = this.genericValidator.processMessages(this.productForm);
-            });
-        });
+        this.productForm.setControl('tags', this.buildTagArray());
     }
 
     addTag(defaultValue: string): void {
         this.tags.push(this.buildTag(defaultValue));
     }
 
-    buildTagArray(): FormArray {
-        this.tags = new FormArray([]);
-        for (let t in this.product.tags) {
-            if (this.product.tags.hasOwnProperty(t)) {
-                this.addTag(this.product.tags[t]);
-            }
-        }
-        return this.tags;
-    }
-
     buildTag(defaultValue: string): FormControl {
         return new FormControl(defaultValue);
+    }
+
+    buildTagArray(): FormArray {
+        if (this.product && this.product.tags) {
+            return this.fb.array(this.product.tags.map((tag) => {
+                return new FormControl(tag);
+            }));
+        } else {
+            return new FormArray([]);
+        }
     }
 
     saveProduct() {

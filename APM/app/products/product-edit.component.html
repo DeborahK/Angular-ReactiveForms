@@ -3,7 +3,7 @@
         {{pageTitle}}
     </div>
 
-    <div class="panel-body" *ngIf="product">
+    <div class="panel-body">
         <form class="form-horizontal"
               novalidate
               (ngSubmit)="saveProduct()"
@@ -56,9 +56,10 @@
                     </div>
                 </div>
                 
-                <div formArrayName="tagArray">
+                <div formArrayName="tags">
                     <div class="row">
-                        <button class="col-md-offset-1 col-md-1 btn btn-default" 
+                        <button class="col-md-offset-1 col-md-1 btn btn-default"
+                                type="button"
                                 (click)="addTag()">Add Tag
                         </button>
                     </div>
