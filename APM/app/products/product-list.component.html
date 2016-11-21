@@ -40,13 +40,13 @@
                 <tbody>
                     <tr *ngFor='let product of products | productFilter:listFilter'>
                         <td>
-                            <img *ngIf='showImage'
+                            <img *ngIf='showImage && product.imageUrl'
                                  [src]='product.imageUrl'
                                  [title]='product.productName | uppercase'
                                  [style.width.px]='imageWidth' 
                                  [style.margin.px]='imageMargin'>
                         </td>
-                        <td><a [routerLink]="['/product', product.productId]">
+                        <td><a [routerLink]="['/product', product.id]">
                             {{product.productName}}
                             </a>
                         </td>
@@ -60,7 +60,7 @@
                        </td>
                        <td>
                             <a class="btn btn-primary" 
-                               [routerLink]="['/productEdit', product.productId]">
+                               [routerLink]="['/productEdit', product.id]">
                                 Edit
                             </a>
                         </td>

@@ -33,7 +33,7 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
     constructor(private fb: FormBuilder,
         private router: Router,
         private route: ActivatedRoute,
-        private _productService: ProductService) {
+        private productService: ProductService) {
 
         this.validationMessages = {
             productName: {
@@ -54,13 +54,6 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.sub = this.route.params.subscribe(
-            params => {
-                let id = +params['id'];
-                this.getProduct(id);
-            }
-        );
-
         this.productForm = this.fb.group({
             productName: ['', [Validators.required,
                                Validators.minLength(3),
@@ -70,6 +63,13 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
             tags: this.buildTagArray(),
             description: ''
         });
+
+        this.sub = this.route.params.subscribe(
+            params => {
+                let id = +params['id'];
+                this.getProduct(id);
+            }
+        );
     }
 
     ngAfterViewInit(): void {
@@ -90,7 +90,7 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     getProduct(id: number): void {
-        this._productService.getProduct(id)
+        this.productService.getProduct(id)
             .subscribe(
             (product: IProduct) => this.onProductRetrieved(product),
             (error: any) => this.errorMessage = <any>error);
@@ -102,7 +102,7 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         this.product = product;
 
-        if (this.product.productId === 0) {
+        if (this.product.id === 0) {
             this.pageTitle = 'Add Product';
         } else {
             this.pageTitle = `Edit Product: ${this.product.productName}`;
@@ -138,8 +138,20 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
     saveProduct() {
         if (this.productForm.dirty && this.productForm.valid) {
-            this.product = this.productForm.value;
-            alert(`Movie: ${JSON.stringify(this.productForm.value)}`);
+            // Copy the form values over the product object values
+            this.product = Object.assign({}, this.product, this.productForm.value);
+
+            if (this.product.id === 0) {
+                this.productService.createProduct(this.product)
+                    .subscribe(
+                     () => this.router.navigate(['/products']),
+                     (error: any) => this.errorMessage = <any>error);
+            } else {
+                this.productService.updateProduct(this.product)
+                    .subscribe(
+                     () => this.router.navigate(['/products']),
+                     (error: any) => this.errorMessage = <any>error);
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
@@ -10,20 +10,62 @@ import { IProduct } from './product';
 
 @Injectable()
 export class ProductService {
-    private _productUrl = 'api/products/products.json';
+    private productUrl = 'app/products';
 
-    constructor(private _http: Http) { }
+    constructor(private http: Http) { }
 
     getProducts(): Observable<IProduct[]> {
-        return this._http.get(this._productUrl)
-            .map((response: Response) => <IProduct[]> response.json())
-            .do(data => console.log('All: ' +  JSON.stringify(data)))
+        return this.http.get(this.productUrl)
+            .map(this.extractData)
+            .do(data => console.log('All: ' + JSON.stringify(data)))
             .catch(this.handleError);
     }
 
     getProduct(id: number): Observable<IProduct> {
-        return this.getProducts()
-            .map((products: IProduct[]) => this.handleMap(products, id));
+        if (id === 0) {
+            return Observable.create((observer: any) => {
+                observer.next(this.initializeProduct());
+                observer.complete();
+            });
+        };
+        const url = `${this.productUrl}/${id}`;
+        return this.http.get(url)
+            .map(this.extractData)
+            .do(data => console.log('All: ' + JSON.stringify(data)))
+            .catch(this.handleError);
+    }
+
+    createProduct(product: IProduct): Observable<IProduct> {
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.post(this.productUrl, product, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    deleteProduct(id: number): Observable<IProduct> {
+        const url = `${this.productUrl}/${id}`;
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.delete(url, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    updateProduct(product: IProduct): Observable<IProduct> {
+        const url = `${this.productUrl}/${product.id}`;
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.put(url, product, options)
+            .catch(this.handleError);
+    }
+
+    private extractData(response: Response) {
+        let body = response.json();
+        return body.data || {};
     }
 
     private handleError(error: Response): Observable<any> {
@@ -33,22 +75,18 @@ export class ProductService {
         return Observable.throw(error.json().error || 'Server error');
     }
 
-    private handleMap(products: IProduct[], id: number): IProduct {
+    initializeProduct(): IProduct {
         // Return an initialized object
-        if (id === 0) {
-            return {
-                productId: 0,
-                productName: null,
-                productCode: null,
-                tags: [''],
-                releaseDate: null,
-                price: null,
-                description: null,
-                starRating: null,
-                imageUrl: null
-            };
-        }
-        let filtered = products.filter(p => p.productId === id);
-        return <IProduct> filtered[0];
+        return {
+            id: 0,
+            productName: null,
+            productCode: null,
+            tags: [''],
+            releaseDate: null,
+            price: null,
+            description: null,
+            starRating: null,
+            imageUrl: null
+        };
     }
 }
