@@ -56,8 +56,8 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnInit(): void {
         this.productForm = this.fb.group({
             productName: ['', [Validators.required,
-                               Validators.minLength(3),
-                               Validators.maxLength(50)]],
+            Validators.minLength(3),
+            Validators.maxLength(50)]],
             productCode: ['', Validators.required],
             starRating: ['', NumberValidators.range(1, 5)],
             tags: this.buildTagArray(),
@@ -136,22 +136,30 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
 
+    onDelete(): void {
+        if (this.product.id === 0) {
+            // Do nothing, it was never saved.
+        } else {
+            if (confirm(`Really delete the product: ${this.product.productName}?`)) {
+
+                this.productService.deleteProduct(this.product.id)
+                    .subscribe(
+                    () => this.router.navigate(['/products']),
+                    (error: any) => this.errorMessage = <any>error);
+            }
+            this.router.navigate(['/products']);
+        }
+    }
+
     saveProduct() {
         if (this.productForm.dirty && this.productForm.valid) {
             // Copy the form values over the product object values
             this.product = Object.assign({}, this.product, this.productForm.value);
 
-            if (this.product.id === 0) {
-                this.productService.createProduct(this.product)
-                    .subscribe(
-                     () => this.router.navigate(['/products']),
-                     (error: any) => this.errorMessage = <any>error);
-            } else {
-                this.productService.updateProduct(this.product)
-                    .subscribe(
-                     () => this.router.navigate(['/products']),
-                     (error: any) => this.errorMessage = <any>error);
-            }
+            this.productService.saveProduct(this.product)
+                .subscribe(
+                () => this.router.navigate(['/products']),
+                (error: any) => this.errorMessage = <any>error);
         }
     }
 }
