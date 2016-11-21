@@ -1,7 +1,17 @@
 
 ## Description
 
-The edit form in this reference application demonstrates: FormControls, FormGroups, FormArrays, custom validation, dynamically adding input elements, generic validation (including blur), populating the form data from Http, and basic CRUD operations: Create, Read, Update, and Delete.
+The edit form in this reference application demonstrates: 
+ - FormControls, FormGroups, FormArrays
+ - Basic validation
+ - Custom validation
+ - Generic validation (including blur)
+ - Display of validation messages
+ - Dynamically adding input elements
+ - Passing route parameters
+ - Route guards (including confirmation when navigating away with unsaved changes)
+ - Populating the form data from Http using Observables
+ - Basic CRUD operations: Create, Read, Update, and Delete.
 
 ## Installation
 
