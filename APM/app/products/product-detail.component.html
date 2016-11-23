@@ -48,13 +48,15 @@
                      [title]="product.productName">
             </div>
         </div>
+        <div class='has-error' *ngIf='errorMessage'>{{errorMessage}}</div>
     </div>
 
     <div class="panel-footer">
         <a class="btn btn-default" (click)="onBack()" style="width:80px">
             <i class="glyphicon glyphicon-chevron-left"></i> Back
         </a>
-        <a class="btn btn-primary" style="width:80px;margin-left:10px" [routerLink]="['/productEdit', product.id]">
+        <a class="btn btn-primary" style="width:80px;margin-left:10px" 
+           [routerLink]="['/productEdit', product.id]">
             Edit
         </a>
     </div>

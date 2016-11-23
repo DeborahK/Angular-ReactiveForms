@@ -26,7 +26,6 @@ export  class ProductDetailGuard implements CanActivate {
 export  class ProductEditGuard implements CanDeactivate<ProductEditComponent> {
 
     canDeactivate(component: ProductEditComponent): boolean {
-        console.log(component.productForm.dirty);
         if (component.productForm.dirty) {
             return confirm(`Navigate away and lose all changes to ${component.product.productName}?`);
         }

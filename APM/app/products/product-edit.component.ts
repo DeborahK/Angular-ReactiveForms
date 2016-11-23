@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, ViewChildren, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators, FormControlName, FormArray } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, FormControl, FormArray, Validators, FormControlName } from '@angular/forms';
+import { ActivatedRoute, Router  } from '@angular/router';
 
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/observable/fromEvent';
@@ -21,18 +21,19 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChildren(FormControlName, { read: ElementRef }) formControls: ElementRef[];
 
     pageTitle: string = 'Product Edit';
-    product: IProduct;
     errorMessage: string;
-    private sub: Subscription;
-
     productForm: FormGroup;
     displayMessage: { [key: string]: string } = {};
+
+    product: IProduct;
+    private sub: Subscription;
+
     private validationMessages: { [key: string]: { [key: string]: string } };
-    genericValidator: GenericValidator;
+    private genericValidator: GenericValidator;
 
     constructor(private fb: FormBuilder,
-        private router: Router,
         private route: ActivatedRoute,
+        private router: Router,
         private productService: ProductService) {
 
         this.validationMessages = {
@@ -50,7 +51,6 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
         };
 
         this.genericValidator = new GenericValidator(this.validationMessages);
-
     }
 
     ngOnInit(): void {
@@ -72,6 +72,10 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
         );
     }
 
+    ngOnDestroy(): void {
+        this.sub.unsubscribe();
+    }
+    
     ngAfterViewInit(): void {
         let controlBlurs: Observable<any>[] = this.formControls
             .map((formControl: ElementRef) => Observable.fromEvent(formControl.nativeElement, 'blur'));
@@ -81,12 +85,26 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
         });
     }
 
-    ngOnDestroy(): void {
-        this.sub.unsubscribe();
-    }
-
     get tags(): FormArray {
         return <FormArray>this.productForm.get('tags');
+    }
+
+    addTag(defaultValue: string): void {
+        this.tags.push(this.buildTag(defaultValue));
+    }
+
+    buildTag(defaultValue: string): FormControl {
+        return new FormControl(defaultValue);
+    }
+
+    buildTagArray(): FormArray {
+        if (this.product && this.product.tags) {
+            return this.fb.array(this.product.tags.map((tag) => {
+                return this.buildTag(tag);
+            }));
+        } else {
+            return new FormArray([]);
+        }
     }
 
     getProduct(id: number): void {
@@ -118,32 +136,13 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
         this.productForm.setControl('tags', this.buildTagArray());
     }
 
-    addTag(defaultValue: string): void {
-        this.tags.push(this.buildTag(defaultValue));
-    }
-
-    buildTag(defaultValue: string): FormControl {
-        return new FormControl(defaultValue);
-    }
-
-    buildTagArray(): FormArray {
-        if (this.product && this.product.tags) {
-            return this.fb.array(this.product.tags.map((tag) => {
-                return new FormControl(tag);
-            }));
-        } else {
-            return new FormArray([]);
-        }
-    }
-
     onDelete(): void {
         if (this.product.id === 0) {
             // Do nothing, it was never saved.
         } else {
             if (confirm(`Really delete the product: ${this.product.productName}?`)) {
                 this.productService.deleteProduct(this.product.id)
-                    .subscribe(
-                    () => this.router.navigate(['/products']),
+                    .subscribe(() => this.onSaveComplete(),
                     (error: any) => this.errorMessage = <any>error);
             }
             this.router.navigate(['/products']);
@@ -156,9 +155,14 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
             this.product = Object.assign({}, this.product, this.productForm.value);
 
             this.productService.saveProduct(this.product)
-                .subscribe(
-                () => this.router.navigate(['/products']),
+                .subscribe(() => this.onSaveComplete(),
                 (error: any) => this.errorMessage = <any>error);
         }
+    }
+
+    onSaveComplete(): void {
+        // Reset the form to clear the flags
+        this.productForm.reset();
+        this.router.navigate(['/products']);
     }
 }

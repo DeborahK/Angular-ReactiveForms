@@ -120,8 +120,7 @@
                 </div>
             </fieldset>
         </form>
+        <div class='has-error' *ngIf='errorMessage'>{{errorMessage}}</div>
     </div>
 
 </div>
-{{ productForm?.value | json }}
-<br>Display Message: {{ displayMessage | json }}
