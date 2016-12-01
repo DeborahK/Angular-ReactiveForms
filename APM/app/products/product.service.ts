@@ -11,14 +11,14 @@ import { IProduct } from './product';
 
 @Injectable()
 export class ProductService {
-    private productUrl = 'app/products';
+    private productUrl = 'api/products';
 
     constructor(private http: Http) { }
 
     getProducts(): Observable<IProduct[]> {
         return this.http.get(this.productUrl)
             .map(this.extractData)
-            .do(data => console.log('All: ' + JSON.stringify(data)))
+            .do(data => console.log('getProducts: ' + JSON.stringify(data)))
             .catch(this.handleError);
     }
 
@@ -32,16 +32,17 @@ export class ProductService {
         const url = `${this.productUrl}/${id}`;
         return this.http.get(url)
             .map(this.extractData)
-            .do(data => console.log('All: ' + JSON.stringify(data)))
+            .do(data => console.log('getProduct: ' + JSON.stringify(data)))
             .catch(this.handleError);
     }
 
-    deleteProduct(id: number): Observable<IProduct> {
-        const url = `${this.productUrl}/${id}`;
+    deleteProduct(id: number): Observable<Response> {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
+        const url = `${this.productUrl}/${id}`;
         return this.http.delete(url, options)
+            .do(data => console.log('deleteProduct: ' + JSON.stringify(data)))
             .catch(this.handleError);
     }
 
@@ -58,12 +59,15 @@ export class ProductService {
     private createProduct(product: IProduct, options: RequestOptions): Observable<IProduct> {
         return this.http.post(this.productUrl, product, options)
             .map(this.extractData)
+            .do(data => console.log('createProduct: ' + JSON.stringify(data)))
             .catch(this.handleError);
     }
 
     private updateProduct(product: IProduct, options: RequestOptions): Observable<IProduct> {
         const url = `${this.productUrl}/${product.id}`;
         return this.http.put(url, product, options)
+            .map(() => product)
+            .do(data => console.log('updateProduct: ' + JSON.stringify(data)))
             .catch(this.handleError);
     }
 

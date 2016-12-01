@@ -75,7 +75,7 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnDestroy(): void {
         this.sub.unsubscribe();
     }
-    
+
     ngAfterViewInit(): void {
         let controlBlurs: Observable<any>[] = this.formControls
             .map((formControl: ElementRef) => Observable.fromEvent(formControl.nativeElement, 'blur'));
@@ -110,8 +110,9 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
     getProduct(id: number): void {
         this.productService.getProduct(id)
             .subscribe(
-            (product: IProduct) => this.onProductRetrieved(product),
-            (error: any) => this.errorMessage = <any>error);
+                (product: IProduct) => this.onProductRetrieved(product),
+                (error: any) => this.errorMessage = <any>error
+            );
     }
 
     onProductRetrieved(product: IProduct): void {
@@ -136,27 +137,31 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
         this.productForm.setControl('tags', this.buildTagArray());
     }
 
-    onDelete(): void {
+    deleteProduct(): void {
         if (this.product.id === 0) {
             // Do nothing, it was never saved.
-        } else {
+            this.router.navigate(['/products']);
+       } else {
             if (confirm(`Really delete the product: ${this.product.productName}?`)) {
                 this.productService.deleteProduct(this.product.id)
-                    .subscribe(() => this.onSaveComplete(),
-                    (error: any) => this.errorMessage = <any>error);
+                    .subscribe(
+                        () => this.onSaveComplete(),
+                        (error: any) => this.errorMessage = <any>error
+                    );
             }
-            this.router.navigate(['/products']);
         }
     }
 
-    saveProduct() {
+    saveProduct(): void {
         if (this.productForm.dirty && this.productForm.valid) {
             // Copy the form values over the product object values
             this.product = Object.assign({}, this.product, this.productForm.value);
 
             this.productService.saveProduct(this.product)
-                .subscribe(() => this.onSaveComplete(),
-                (error: any) => this.errorMessage = <any>error);
+                .subscribe(
+                    () => this.onSaveComplete(),
+                    (error: any) => this.errorMessage = <any>error
+                );
         }
     }
 
