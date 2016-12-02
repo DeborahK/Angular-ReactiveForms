@@ -32,9 +32,9 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
     private genericValidator: GenericValidator;
 
     constructor(private fb: FormBuilder,
-        private route: ActivatedRoute,
-        private router: Router,
-        private productService: ProductService) {
+                private route: ActivatedRoute,
+                private router: Router,
+                private productService: ProductService) {
 
         this.validationMessages = {
             productName: {
