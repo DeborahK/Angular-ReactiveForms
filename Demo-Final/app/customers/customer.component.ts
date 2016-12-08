@@ -38,7 +38,10 @@ export class CustomerComponent implements OnInit {
     customerForm: FormGroup;
     customer: Customer = new Customer();
     emailMessage: string;
-    addresses: FormArray;
+
+    get addresses(): FormArray{
+        return <FormArray>this.customerForm.get('addresses');
+    }
 
     private validationMessages = {
         required: 'Please enter your email address.',
@@ -59,7 +62,7 @@ export class CustomerComponent implements OnInit {
             notification: 'email',
             rating: [null, ratingRange(1, 5)],
             sendCatalog: true,
-            addressArray: this.buildAddressArray()
+            addresses: this.fb.array([this.buildAddress()])
         });
 
         this.customerForm.get('notification').valueChanges.subscribe(value => {
@@ -85,13 +88,6 @@ export class CustomerComponent implements OnInit {
             state: null,
             zip: null
         });
-    }
-
-    buildAddressArray(): FormArray {
-        this.addresses = this.fb.array([
-            this.buildAddress()
-        ]);
-        return this.addresses;
     }
 
     save(): void {

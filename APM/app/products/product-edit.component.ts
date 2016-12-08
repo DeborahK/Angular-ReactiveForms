@@ -31,6 +31,10 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
     private validationMessages: { [key: string]: { [key: string]: string } };
     private genericValidator: GenericValidator;
 
+    get tags(): FormArray {
+        return <FormArray>this.productForm.get('tags');
+    }
+
     constructor(private fb: FormBuilder,
                 private route: ActivatedRoute,
                 private router: Router,
@@ -60,7 +64,7 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
                                Validators.maxLength(50)]],
             productCode: ['', Validators.required],
             starRating: ['', NumberValidators.range(1, 5)],
-            tags: this.buildTagArray(),
+            tags: this.fb.array([]),
             description: ''
         });
 
@@ -85,26 +89,12 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
         });
     }
 
-    get tags(): FormArray {
-        return <FormArray>this.productForm.get('tags');
-    }
-
     addTag(defaultValue: string): void {
         this.tags.push(this.buildTag(defaultValue));
     }
 
     buildTag(defaultValue: string): FormControl {
         return new FormControl(defaultValue);
-    }
-
-    buildTagArray(): FormArray {
-        if (this.product && this.product.tags) {
-            return this.fb.array(this.product.tags.map((tag) => {
-                return this.buildTag(tag);
-            }));
-        } else {
-            return new FormArray([]);
-        }
     }
 
     getProduct(id: number): void {
@@ -134,7 +124,9 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
             starRating: this.product.starRating,
             description: this.product.description
         });
-        this.productForm.setControl('tags', this.buildTagArray());
+        this.productForm.setControl('tags', 
+               this.fb.array(this.product.tags.map(tag => this.buildTag(tag)))
+        );
     }
 
     deleteProduct(): void {

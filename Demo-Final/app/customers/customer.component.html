@@ -178,7 +178,7 @@
                 </div>
 
                 <div *ngIf="customerForm.get('sendCatalog').value">
-                    <div formArrayName="addressArray" *ngFor="let address of addresses.controls; let i=index">
+                    <div formArrayName="addresses" *ngFor="let address of addresses.controls; let i=index">
                         <div [formGroupName]="i">
                             <div class="form-group" >
                                 <label class="col-md-2 control-label"
@@ -264,7 +264,7 @@
                             <span>
                                 <button class="btn btn-primary"
                                         type="button"
-                                        [disabled]="!customerForm.get('addressArray').valid"
+                                        [disabled]="!addresses.valid"
                                         (click)="addAddress()">
                                     Add Another Address
                                 </button>
@@ -292,5 +292,5 @@ Dirty: {{ customerForm.dirty }}
 <br>Touched: {{ customerForm.touched }}
 <br>Valid: {{ customerForm.valid }}
 <br>Errors: {{ customerForm.get('emailGroup').errors | json}}
-<br>Street: {{ customerForm.get('addressArray.2.street1')?.value }}
+<br>Street: {{ customerForm.get('addresses.2.street1')?.value }}
 <br>Value: {{ customerForm.value | json }}
