@@ -1,5 +1,5 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import {NgForm} from '@angular/forms';
+import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 import { Customer } from './customer';
 
@@ -7,16 +7,11 @@ import { Customer } from './customer';
     selector: 'my-signup',
     templateUrl: './app/customers/customer.component.html'
 })
-export class CustomerComponent implements AfterViewInit {
-    @ViewChild(NgForm) entryForm: NgForm;
-
+export class CustomerComponent  {
     customer: Customer= new Customer();
 
-    ngAfterViewInit() {
-        console.log(this.entryForm.form);
-    }
-
-    save() {
-        console.log('Saved: ' + JSON.stringify(this.entryForm.value));
+    save(customerForm: NgForm) {
+        console.log(customerForm.form);
+        console.log('Saved: ' + JSON.stringify(customerForm.value));
     }
  }
