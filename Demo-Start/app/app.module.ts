@@ -10,7 +10,10 @@ import { CustomerComponent } from './customers/customer.component';
     BrowserModule,
     FormsModule
   ],
-  declarations: [AppComponent, CustomerComponent],
+  declarations: [
+    AppComponent,
+    CustomerComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

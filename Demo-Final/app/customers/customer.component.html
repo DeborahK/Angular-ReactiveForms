@@ -62,10 +62,10 @@
                 </div>
 
                 <div formGroupName="emailGroup"
-                     [ngClass]="{'has-error': customerForm.get('emailGroup').errors && 
-                                              customerForm.get('emailGroup').errors.match }">
+                     [ngClass]="{'has-error': customerForm.get('emailGroup').errors }">
+                     
                     <div class="form-group"
-                        [ngClass]="{'has-error': emailMessage}">
+                         [ngClass]="{'has-error': emailMessage}">
                         <label class="col-md-2 control-label" 
                             for="emailId">Email</label>
 
@@ -288,9 +288,8 @@
         </form>
     </div>
 </div>
-Dirty: {{ customerForm.dirty }} 
+<br>Dirty: {{ customerForm.dirty }} 
 <br>Touched: {{ customerForm.touched }}
 <br>Valid: {{ customerForm.valid }}
-<br>Errors: {{ customerForm.get('emailGroup').errors | json}}
-<br>Street: {{ customerForm.get('addresses.2.street1')?.value }}
 <br>Value: {{ customerForm.value | json }}
+<br>Street: {{ addresses.get('0.street1')?.value }}

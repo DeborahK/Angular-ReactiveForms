@@ -11,7 +11,7 @@
         "lite": "lite-server"
     },
     "license": "ISC",
-        "dependencies": {
+    "dependencies": {
         "@angular/common": "~2.1.1",
         "@angular/compiler": "~2.1.1",
         "@angular/core": "~2.1.1",

@@ -92,9 +92,8 @@
                 <div class="form-group">
                     <div class="col-md-offset-1 col-md-8 checkbox" >
                         <label>
-                            <input id="addressTypeId"
+                            <input id="sendCatalogId"
                                    type="checkbox"
-                                   [checked]="myvar"
                                    [(ngModel)]="customer.sendCatalog"
                                    name="sendCatalog" >
                             Send me your catalog
@@ -107,7 +106,7 @@
                         <label class="col-md-2 control-label">Address Type</label>
                         <div class="col-md-8">
                                 <label class="radio-inline">
-                                    <input type="radio" id="addressType1Id" value="home" checked
+                                    <input type="radio" id="addressType1Id" value="home"
                                            [(ngModel)]="customer.addressType"
                                            name="addressType">Home
                                 </label>

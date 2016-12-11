@@ -6,17 +6,15 @@ import 'rxjs/add/operator/debounceTime';
 import { Customer } from './customer';
 
 function ratingRange(min: number, max: number): ValidatorFn {
-    return (c: AbstractControl):
-        { [key: string]: boolean } | null => {
-        if (c.value &&
-            (isNaN(c.value) || c.value < min || c.value > max)) {
+    return (c: AbstractControl): { [key: string]: boolean } | null => {
+        if (isNaN(c.value) || c.value < min || c.value > max) {
             return { 'range': true };
         }
         return null;
     };
 }
 
-function emailMatcher(c: AbstractControl) {
+function emailMatcher(c: AbstractControl): { [key: string]: boolean } | null {
     let emailControl = c.get('email');
     let confirmControl = c.get('confirmEmail');
 
@@ -45,7 +43,8 @@ export class CustomerComponent implements OnInit {
 
     private validationMessages = {
         required: 'Please enter your email address.',
-        pattern: 'Please enter a valid email address.'
+        pattern: 'Please enter a valid email address.',
+        minlength: 'Please enter at least 4 characters.'
     };
 
     constructor(private fb: FormBuilder) { }
@@ -55,9 +54,11 @@ export class CustomerComponent implements OnInit {
             firstName: [null, [Validators.required, Validators.minLength(3)]],
             lastName: [null, [Validators.required, Validators.maxLength(50)]],
             emailGroup: this.fb.group({
-                email: [null, [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+')]],
-                confirmEmail: [null, Validators.required]
-            }, { validator: emailMatcher }),
+                email: [ null, [Validators.required,
+                                Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+'),
+                                Validators.minLength(4) ]],
+                confirmEmail: [ null, Validators.required ],
+            }, {validator: emailMatcher}),
             phone: null,
             notification: 'email',
             rating: [null, ratingRange(1, 5)],
@@ -65,14 +66,12 @@ export class CustomerComponent implements OnInit {
             addresses: this.fb.array([this.buildAddress()])
         });
 
-        this.customerForm.get('notification').valueChanges.subscribe(value => {
-            this.setNotification(value);
-        });
+        this.customerForm.get('notification').valueChanges.subscribe(value =>
+            this.setNotification(value));
 
-        let emailControl = this.customerForm.get('emailGroup.email');
-        emailControl.valueChanges.debounceTime(1000).subscribe(value => {
-            this.setMessage(emailControl);
-        });
+        const emailControl = this.customerForm.get('emailGroup.email');
+        emailControl.valueChanges.debounceTime(1000).subscribe(value =>
+            this.setMessage(emailControl));
     }
 
     addAddress(): void {
@@ -94,20 +93,17 @@ export class CustomerComponent implements OnInit {
         console.log('Saved: ' + JSON.stringify(this.customerForm.value));
     }
 
-    setMessage(c: AbstractControl) {
+    setMessage(c: AbstractControl): void {
         this.emailMessage = '';
-        if ((c.touched || c.dirty) &&
-            c.errors) {
-            for (let key in c.errors) {
-                if (c.errors.hasOwnProperty(key)) {
-                    this.emailMessage += this.validationMessages[key];
-                }
-            }
+        if ((c.touched || c.dirty) && c.errors) {
+            Object.keys(c.errors).map(key =>
+                this.emailMessage += this.validationMessages[key] + ' '
+            );
         }
     }
 
     setNotification(notifyVia: string): void {
-        let phoneControl = this.customerForm.get('phone');
+        const phoneControl = this.customerForm.get('phone');
         if (notifyVia === 'text') {
             phoneControl.setValidators(Validators.required);
         } else {
