@@ -32,7 +32,7 @@ import { SharedModule } from '../shared/shared.module';
         component: ProductEditComponent },
     ])
   ],
-  declarations: [
+  declarations: [ 
     ProductListComponent,
     ProductDetailComponent,
     ProductEditComponent,

@@ -36,14 +36,12 @@ export class GenericValidator {
                     // Only validate if there are validation messages for the control
                     if (this.validationMessages[controlKey]) {
                         messages[controlKey] = '';
-                        if ((c.dirty || c.touched) &&
-                            c.errors) {
-                            for (let messageKey in c.errors) {
-                                if (c.errors.hasOwnProperty(messageKey) &&
-                                    this.validationMessages[controlKey][messageKey]) {
-                                    messages[controlKey] += this.validationMessages[controlKey][messageKey];
+                        if ((c.dirty || c.touched) && c.errors) {
+                            Object.keys(c.errors).map(messageKey => {
+                                if (this.validationMessages[controlKey][messageKey]) {
+                                    messages[controlKey] += this.validationMessages[controlKey][messageKey] + ' ';
                                 }
-                            }
+                            });
                         }
                     }
                 }
