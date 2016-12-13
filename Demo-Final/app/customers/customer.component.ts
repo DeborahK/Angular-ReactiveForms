@@ -7,7 +7,7 @@ import { Customer } from './customer';
 
 function ratingRange(min: number, max: number): ValidatorFn {
     return (c: AbstractControl): { [key: string]: boolean } | null => {
-        if (isNaN(c.value) || c.value < min || c.value > max) {
+        if (c.value !== undefined && (isNaN(c.value) || c.value < min || c.value > max)) {
             return { 'range': true };
         }
         return null;
@@ -51,17 +51,17 @@ export class CustomerComponent implements OnInit {
 
     ngOnInit(): void {
         this.customerForm = this.fb.group({
-            firstName: [null, [Validators.required, Validators.minLength(3)]],
-            lastName: [null, [Validators.required, Validators.maxLength(50)]],
+            firstName: ['', [Validators.required, Validators.minLength(3)]],
+            lastName: ['', [Validators.required, Validators.maxLength(50)]],
             emailGroup: this.fb.group({
-                email: [ null, [Validators.required,
+                email: [ '', [Validators.required,
                                 Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+'),
                                 Validators.minLength(4) ]],
                 confirmEmail: [ null, Validators.required ],
             }, {validator: emailMatcher}),
-            phone: null,
+            phone: '',
             notification: 'email',
-            rating: [null, ratingRange(1, 5)],
+            rating: ['', ratingRange(1, 5)],
             sendCatalog: true,
             addresses: this.fb.array([this.buildAddress()])
         });
@@ -110,5 +110,13 @@ export class CustomerComponent implements OnInit {
             phoneControl.clearValidators();
         }
         phoneControl.updateValueAndValidity();
+    }
+
+    populateTestData(): void {
+        this.customerForm.patchValue({
+            firstName: 'Jack',
+            lastName: 'Harkness',
+            emailGroup: {email: 'jack@torchwood.com', confirmEmail: 'jack@torchwood.com'}
+        });
     }
 }

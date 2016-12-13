@@ -97,12 +97,8 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
         });
     }
 
-    addTag(defaultValue: string): void {
-        this.tags.push(this.buildTag(defaultValue));
-    }
-
-    buildTag(defaultValue: string): FormControl {
-        return new FormControl(defaultValue);
+    addTag(): void {
+        this.tags.push(new FormControl());
     }
 
     getProduct(id: number): void {
@@ -132,15 +128,13 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
             starRating: this.product.starRating,
             description: this.product.description
         });
-        this.productForm.setControl('tags',
-               this.fb.array(this.product.tags.map(tag => this.buildTag(tag)))
-        );
+        this.productForm.setControl('tags', this.fb.array(this.product.tags));
     }
 
     deleteProduct(): void {
         if (this.product.id === 0) {
-            // Do nothing, it was never saved.
-            this.router.navigate(['/products']);
+            // Don't delete, it was never saved.
+            this.onSaveComplete();
        } else {
             if (confirm(`Really delete the product: ${this.product.productName}?`)) {
                 this.productService.deleteProduct(this.product.id)
@@ -162,6 +156,8 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
                     () => this.onSaveComplete(),
                     (error: any) => this.errorMessage = <any>error
                 );
+        } else if (!this.productForm.dirty) {
+            this.onSaveComplete();
         }
     }
 
