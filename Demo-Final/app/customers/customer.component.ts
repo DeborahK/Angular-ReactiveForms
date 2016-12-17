@@ -96,9 +96,8 @@ export class CustomerComponent implements OnInit {
     setMessage(c: AbstractControl): void {
         this.emailMessage = '';
         if ((c.touched || c.dirty) && c.errors) {
-            Object.keys(c.errors).map(key =>
-                this.emailMessage += this.validationMessages[key] + ' '
-            );
+            this.emailMessage = Object.keys(c.errors).map(key =>
+                this.validationMessages[key]).join(' ');
         }
     }
 

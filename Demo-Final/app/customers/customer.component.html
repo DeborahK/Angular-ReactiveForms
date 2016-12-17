@@ -11,8 +11,8 @@
             <fieldset>
                 <div class="form-group"
                     [ngClass]="{'has-error': (customerForm.get('firstName').touched || 
-                                              customerForm.controls.firstName.dirty) &&
-                                              !customerForm.controls.firstName.valid }">
+                                              customerForm.get('firstName').dirty) &&
+                                              !customerForm.get('firstName').valid }">
                     <label class="col-md-2 control-label" 
                            for="firstNameId">First Name</label>
 
@@ -22,13 +22,13 @@
                                type="text" 
                                placeholder="First Name (required)" 
                                formControlName="firstName" />
-                        <span class="help-block" *ngIf="(customerForm.controls.firstName.touched || 
-                                                         customerForm.controls.firstName.dirty) && 
-                                                         customerForm.controls.firstName.errors">
-                            <span *ngIf="customerForm.controls.firstName.errors.required">
+                        <span class="help-block" *ngIf="(customerForm.get('firstName').touched || 
+                                                         customerForm.get('firstName').dirty) && 
+                                                         customerForm.get('firstName').errors">
+                            <span *ngIf="customerForm.get('firstName').errors.required">
                                 Please enter your first name.
                             </span>
-                            <span *ngIf="customerForm.controls.firstName.errors.minlength">
+                            <span *ngIf="customerForm.get('firstName').errors.minlength">
                                 The first name must be longer than 3 characters.
                             </span>
                         </span>
@@ -36,9 +36,7 @@
                 </div>
 
                 <div class="form-group"
-                    [ngClass]="{'has-error': (customerForm.controls.lastName.touched || 
-                                              customerForm.controls.lastName.dirty) && 
-                                              !customerForm.controls.lastName.valid }">
+                    [ngClass]="{'has-error': (customerForm.get('lastName').touched || customerForm.get('lastName').dirty) && !customerForm.get('lastName').valid }">
                     <label class="col-md-2 control-label" 
                         for="lastNameId">Last Name</label>
 
@@ -47,11 +45,9 @@
                                id="lastNameId" 
                                type="text" 
                                placeholder="Last Name (required)" 
-                               formControlName = "lastName" />
-                        <span class="help-block" *ngIf="(customerForm.controls.lastName.touched 
-                                                         || customerForm.controls.lastName.dirty) && 
-                                                         customerForm.controls.lastName.errors">
-                            <span *ngIf="customerForm.controls.lastName.errors.required">
+                               formControlName="lastName" />
+                        <span class="help-block" *ngIf="(customerForm.get('lastName').touched || customerForm.get('lastName').dirty) && customerForm.get('lastName').errors">
+                            <span *ngIf="customerForm.get('lastName').errors.required">
                                 Please enter your last name.
                             </span>
                              <span *ngIf="customerForm.controls.lastName.errors.maxlength">
@@ -110,7 +106,7 @@
                 </div>
 
                 <div class="form-group"
-                    [ngClass]="{'has-error': !customerForm.controls.phone.valid }">
+                    [ngClass]="{'has-error': !customerForm.get('phone').valid }">
                     <label class="col-md-2 control-label" 
                         for="phoneId">Phone</label>
 
@@ -120,8 +116,8 @@
                                type="tel" 
                                placeholder="Phone" 
                                formControlName = "phone" />
-                        <span class="help-block" *ngIf="customerForm.controls.phone.errors">
-                            <span *ngIf="customerForm.controls.phone.errors.required">
+                        <span class="help-block" *ngIf="customerForm.get('phone').errors">
+                            <span *ngIf="customerForm.get('phone').errors.required">
                                 Please enter your phone number.
                             </span>
                         </span>
@@ -134,20 +130,20 @@
                             <label class="radio-inline">
                                 <input type="radio" 
                                        value="email" 
-                                       formControlName="notification">Email
+                                       formControlName = "notification">Email
                             </label>
                             <label class="radio-inline">
                                 <input type="radio" 
                                        value="text" 
-                                       formControlName="notification">Text
+                                       formControlName = "notification">Text
                             </label>
                     </div>
                 </div>
 
                 <div class="form-group"
-                    [ngClass]="{'has-error': (customerForm.controls.rating.touched || 
-                                              customerForm.controls.rating.dirty) && 
-                                              !customerForm.controls.rating.valid }">
+                    [ngClass]="{'has-error': (customerForm.get('rating').touched || 
+                                              customerForm.get('rating').dirty) && 
+                                              !customerForm.get('rating').valid }">
                     <label class="col-md-2 control-label" 
                         for="ratingId">Rating</label>
 
@@ -156,10 +152,10 @@
                                id="ratingId" 
                                type="number" 
                                formControlName = "rating" />
-                        <span class="help-block" *ngIf="(customerForm.controls.rating.touched ||
-                                                         customerForm.controls.rating.dirty) && 
-                                                         customerForm.controls.rating.errors">
-                             <span *ngIf="customerForm.controls.rating.errors.range">
+                        <span class="help-block" *ngIf="(customerForm.get('rating').touched 
+                                                         || customerForm.get('rating').dirty) && 
+                                                         customerForm.get('rating').errors">
+                             <span *ngIf="customerForm.get('rating').errors.range">
                                 Please rate your experience from 1 to 5.
                             </span>
                        </span>
