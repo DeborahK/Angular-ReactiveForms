@@ -1,31 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn, FormArray } from '@angular/forms';
 
 import 'rxjs/add/operator/debounceTime';
 
 import { Customer } from './customer';
 
-function ratingRange(min: number, max: number): ValidatorFn {
-    return (c: AbstractControl): { [key: string]: boolean } | null => {
-        if (c.value !== undefined && (isNaN(c.value) || c.value < min || c.value > max)) {
-            return { 'range': true };
-        }
-        return null;
-    };
-}
-
-function emailMatcher(c: AbstractControl): { [key: string]: boolean } | null {
+function emailMatcher(c: AbstractControl): {[key: string]: boolean} | null {
     let emailControl = c.get('email');
     let confirmControl = c.get('confirmEmail');
 
     if (emailControl.pristine || confirmControl.pristine) {
-        return null;
+      return null;
     }
 
     if (emailControl.value === confirmControl.value) {
         return null;
     }
     return { 'match': true };
+ }
+
+function ratingRange(min: number, max: number): ValidatorFn {
+    return  (c: AbstractControl): {[key: string]: boolean} | null => {
+        if (c.value !== undefined && (isNaN(c.value) || c.value < min || c.value > max)) {
+            return { 'range': true };
+        };
+        return null;
+    };
 }
 
 @Component({
@@ -43,8 +43,7 @@ export class CustomerComponent implements OnInit {
 
     private validationMessages = {
         required: 'Please enter your email address.',
-        pattern: 'Please enter a valid email address.',
-        minlength: 'Please enter at least 4 characters.'
+        pattern: 'Please enter a valid email address.'
     };
 
     constructor(private fb: FormBuilder) { }
@@ -54,10 +53,8 @@ export class CustomerComponent implements OnInit {
             firstName: ['', [Validators.required, Validators.minLength(3)]],
             lastName: ['', [Validators.required, Validators.maxLength(50)]],
             emailGroup: this.fb.group({
-                email: [ '', [Validators.required,
-                                Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+'),
-                                Validators.minLength(4) ]],
-                confirmEmail: [ null, Validators.required ],
+                email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+')]],
+                confirmEmail: ['', Validators.required],
             }, {validator: emailMatcher}),
             phone: '',
             notification: 'email',
@@ -66,8 +63,8 @@ export class CustomerComponent implements OnInit {
             addresses: this.fb.array([this.buildAddress()])
         });
 
-        this.customerForm.get('notification').valueChanges.subscribe(value =>
-            this.setNotification(value));
+        this.customerForm.get('notification').valueChanges
+                         .subscribe(value => this.setNotification(value));
 
         const emailControl = this.customerForm.get('emailGroup.email');
         emailControl.valueChanges.debounceTime(1000).subscribe(value =>
@@ -80,12 +77,20 @@ export class CustomerComponent implements OnInit {
 
     buildAddress(): FormGroup {
         return this.fb.group({
-            addressType: 'home',
-            street1: null,
-            street2: null,
-            city: null,
-            state: null,
-            zip: null
+                addressType: 'home',
+                street1: '',
+                street2: '',
+                city: '',
+                state: '',
+                zip: ''
+        });
+    }
+
+    populateTestData(): void {
+        this.customerForm.patchValue({
+            firstName: 'Jack',
+            lastName: 'Harkness',
+            emailGroup: {email: 'jack@torchwood.com', confirmEmail: 'jack@torchwood.com'}
         });
     }
 
@@ -109,13 +114,5 @@ export class CustomerComponent implements OnInit {
             phoneControl.clearValidators();
         }
         phoneControl.updateValueAndValidity();
-    }
-
-    populateTestData(): void {
-        this.customerForm.patchValue({
-            firstName: 'Jack',
-            lastName: 'Harkness',
-            emailGroup: {email: 'jack@torchwood.com', confirmEmail: 'jack@torchwood.com'}
-        });
     }
 }

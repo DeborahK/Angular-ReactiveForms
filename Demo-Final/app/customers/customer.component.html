@@ -174,6 +174,19 @@
                 </div>
 
                 <div *ngIf="customerForm.get('sendCatalog').value">
+                    <div class="form-group">
+                        <div class="col-md-4 col-md-offset-2">
+                            <span>
+                                <button class="btn btn-primary"
+                                        type="button"
+		                                [disabled]="!addresses.valid"
+                                        (click)="addAddress()">
+                                    Add Another Address
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
                     <div formArrayName="addresses" *ngFor="let address of addresses.controls; let i=index">
                         <div [formGroupName]="i">
                             <div class="form-group" >
@@ -252,19 +265,6 @@
                                         formControlName="zip">
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-md-4 col-md-offset-2">
-                            <span>
-                                <button class="btn btn-primary"
-                                        type="button"
-                                        [disabled]="!addresses.valid"
-                                        (click)="addAddress()">
-                                    Add Another Address
-                                </button>
-                            </span>
                         </div>
                     </div>
                 </div>
