@@ -128,7 +128,7 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
             starRating: this.product.starRating,
             description: this.product.description
         });
-        this.productForm.setControl('tags', this.fb.array(this.product.tags));
+        this.productForm.setControl('tags', this.fb.array(this.product.tags || []));
     }
 
     deleteProduct(): void {
