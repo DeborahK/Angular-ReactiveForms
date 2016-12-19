@@ -57,6 +57,7 @@ export class ProductService {
     }
 
     private createProduct(product: IProduct, options: RequestOptions): Observable<IProduct> {
+        product.id = undefined;
         return this.http.post(this.baseUrl, product, options)
             .map(this.extractData)
             .do(data => console.log('createProduct: ' + JSON.stringify(data)))
