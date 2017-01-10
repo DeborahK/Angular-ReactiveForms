@@ -15,7 +15,7 @@ import { NumberValidators } from '../shared/number.validator';
 import { GenericValidator } from '../shared/generic-validator';
 
 @Component({
-    templateUrl: './app/products/product-edit.component.html'
+    templateUrl: 'app/products/product-edit.component.html'
 })
 export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
