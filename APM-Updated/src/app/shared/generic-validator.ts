@@ -49,4 +49,17 @@ export class GenericValidator {
         }
         return messages;
     }
+
+    getErrorCount(container: FormGroup): number {
+        let errorCount = 0;
+        for (let controlKey in container.controls) {
+            if (container.controls.hasOwnProperty(controlKey)) {
+                if (container.controls[controlKey].errors) {
+                    errorCount += Object.keys(container.controls[controlKey].errors).length;
+                    console.log(errorCount);
+                }
+            }
+        }
+        return errorCount;
+    }
 }
