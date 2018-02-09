@@ -103,6 +103,7 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
     
     deleteTag(index: number): void {
         this.tags.removeAt(index);
+        // The line below is required in Angular 4 to fix a bug with `removeAt` that was fixed in Angular 5.
         this.productForm.setControl('tags', this.fb.array(this.tags.value || []));
     }
 
