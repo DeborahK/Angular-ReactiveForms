@@ -100,6 +100,11 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
     addTag(): void {
         this.tags.push(new FormControl());
     }
+    
+    deleteTag(index: number): void {
+        this.tags.removeAt(index);
+        this.productForm.setControl('tags', this.fb.array(this.tags.value || []));
+    }
 
     getProduct(id: number): void {
         this.productService.getProduct(id)
