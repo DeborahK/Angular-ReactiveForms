@@ -208,7 +208,10 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group"
+                                 [ngClass]="{'has-error': (address.controls.street1.touched || 
+                                                      address.controls.street1.dirty) && 
+                                                      !address.controls.street1.valid }">
                                 <label class="col-md-2 control-label"
                                        attr.for="{{'street1Id' + i}}">Street Address 1</label>
                                 <div class="col-md-8">
@@ -217,6 +220,11 @@
                                         id="{{'street1Id' + i}}" 
                                         placeholder="Street address"
                                         formControlName="street1">
+                                    <span class="help-block" *ngIf="(address.controls.street1.touched || address.controls.street1.dirty) && address.controls.street1.errors">
+                                      <span *ngIf="address.controls.street1.errors.required">
+                                          Please enter your street address.
+                                      </span>
+                                    </span>
                                 </div>
                             </div>
 

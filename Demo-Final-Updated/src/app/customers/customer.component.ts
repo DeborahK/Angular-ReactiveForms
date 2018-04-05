@@ -5,6 +5,7 @@ import 'rxjs/add/operator/debounceTime';
 
 import { Customer } from './customer';
 
+
 function emailMatcher(c: AbstractControl): {[key: string]: boolean} | null {
     let emailControl = c.get('email');
     let confirmControl = c.get('confirmEmail');
@@ -78,7 +79,7 @@ export class CustomerComponent implements OnInit {
     buildAddress(): FormGroup {
         return this.fb.group({
                 addressType: 'home',
-                street1: '',
+                street1: ['', Validators.required],
                 street2: '',
                 city: '',
                 state: '',
