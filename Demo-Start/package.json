@@ -20,13 +20,11 @@
         "@angular/platform-browser": "~2.3.0",
         "@angular/platform-browser-dynamic": "~2.3.0",
         "@angular/router": "~3.3.0",
-        
         "core-js": "^2.4.1",
         "reflect-metadata": "^0.1.8",
         "rxjs": "5.0.0-rc.4",
         "systemjs": "0.19.40",
         "zone.js": "^0.7.2",
-        
         "bootstrap": "^3.3.7"
     },
     "devDependencies": {
@@ -35,7 +33,7 @@
         "tslint": "^3.15.1",
         "typescript": "~2.0.10",
         "@types/core-js": "0.9.35",
-        "@types/node": "^6.0.46"
+        "@types/node": "7.0.7"
     },
     "repository": {}
 }
