@@ -1,103 +1,99 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/observable/of';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, tap, map } from 'rxjs/operators';
 
-import { IProduct } from './product';
+import { Product } from './product';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ProductService {
-    private baseUrl = 'api/products';
+  private productsUrl = 'api/products';
 
-    constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
-    getProducts(): Observable<IProduct[]> {
-        return this.http.get(this.baseUrl)
-            .map(this.extractData)
-            .do(data => console.log('getProducts: ' + JSON.stringify(data)))
-            .catch(this.handleError);
+  getProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.productsUrl)
+      .pipe(
+        tap(data => console.log(JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  getProduct(id: number): Observable<Product> {
+    if (id === 0) {
+      return of(this.initializeProduct());
     }
+    const url = `${this.productsUrl}/${id}`;
+    return this.http.get<Product>(url)
+      .pipe(
+        tap(data => console.log('getProduct: ' + JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
 
-    getProduct(id: number): Observable<IProduct> {
-        if (id === 0) {
-        return Observable.of(this.initializeProduct());
-        // return Observable.create((observer: any) => {
-        //     observer.next(this.initializeProduct());
-        //     observer.complete();
-        // });
-        };
-        const url = `${this.baseUrl}/${id}`;
-        return this.http.get(url)
-            .map(this.extractData)
-            .do(data => console.log('getProduct: ' + JSON.stringify(data)))
-            .catch(this.handleError);
+  createProduct(product: Product): Observable<Product> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    product.id = null;
+    return this.http.post<Product>(this.productsUrl, product, { headers: headers })
+      .pipe(
+        tap(data => console.log('createProduct: ' + JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  deleteProduct(id: number): Observable<{}> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const url = `${this.productsUrl}/${id}`;
+    return this.http.delete<Product>(url, { headers: headers })
+      .pipe(
+        tap(data => console.log('deleteProduct: ' + id)),
+        catchError(this.handleError)
+      );
+  }
+
+  updateProduct(product: Product): Observable<Product> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const url = `${this.productsUrl}/${product.id}`;
+    return this.http.put<Product>(url, product, { headers: headers })
+      .pipe(
+        tap(() => console.log('updateProduct: ' + product.id)),
+        // Return the product on an update
+        map(() => product),
+        catchError(this.handleError)
+      );
+  }
+
+  private handleError(err) {
+    // in a real world app, we may send the server to some remote logging infrastructure
+    // instead of just logging it to the console
+    let errorMessage: string;
+    if (err.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      errorMessage = `An error occurred: ${err.error.message}`;
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      errorMessage = `Backend returned code ${err.status}: ${err.body.error}`;
     }
+    console.error(err);
+    return throwError(errorMessage);
+  }
 
-    deleteProduct(id: number): Observable<Response> {
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
-
-        const url = `${this.baseUrl}/${id}`;
-        return this.http.delete(url, options)
-            .do(data => console.log('deleteProduct: ' + JSON.stringify(data)))
-            .catch(this.handleError);
-    }
-
-    saveProduct(product: IProduct): Observable<IProduct> {
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
-
-        if (product.id === 0) {
-            return this.createProduct(product, options);
-        }
-        return this.updateProduct(product, options);
-    }
-
-    private createProduct(product: IProduct, options: RequestOptions): Observable<IProduct> {
-        product.id = undefined;
-        return this.http.post(this.baseUrl, product, options)
-            .map(this.extractData)
-            .do(data => console.log('createProduct: ' + JSON.stringify(data)))
-            .catch(this.handleError);
-    }
-
-    private updateProduct(product: IProduct, options: RequestOptions): Observable<IProduct> {
-        const url = `${this.baseUrl}/${product.id}`;
-        return this.http.put(url, product, options)
-            .map(() => product)
-            .do(data => console.log('updateProduct: ' + JSON.stringify(data)))
-            .catch(this.handleError);
-    }
-
-    private extractData(response: Response) {
-        let body = response.json();
-        return body.data || {};
-    }
-
-    private handleError(error: Response): Observable<any> {
-        // in a real world app, we may send the server to some remote logging infrastructure
-        // instead of just logging it to the console
-        console.error(error);
-        return Observable.throw(error.json().error || 'Server error');
-    }
-
-    initializeProduct(): IProduct {
-        // Return an initialized object
-        return {
-            id: 0,
-            productName: null,
-            productCode: null,
-            tags: [''],
-            releaseDate: null,
-            price: null,
-            description: null,
-            starRating: null,
-            imageUrl: null
-        };
-    }
+  private initializeProduct(): Product {
+    // Return an initialized object
+    return {
+      id: 0,
+      productName: null,
+      productCode: null,
+      tags: [''],
+      releaseDate: null,
+      price: null,
+      description: null,
+      starRating: null,
+      imageUrl: null
+    };
+  }
 }

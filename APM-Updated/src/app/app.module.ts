@@ -1,18 +1,20 @@
-import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpModule } from '@angular/http';
+import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
-import { AppComponent }  from './app.component';
+import { AppComponent } from './app.component';
 import { WelcomeComponent } from './home/welcome.component';
-
-/* Feature Modules */
 import { ProductModule } from './products/product.module';
 
 @NgModule({
+  declarations: [
+    AppComponent,
+    WelcomeComponent
+  ],
   imports: [
     BrowserModule,
-    HttpModule,
+    HttpClientModule,
     RouterModule.forRoot([
       { path: 'welcome', component: WelcomeComponent },
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
@@ -20,10 +22,6 @@ import { ProductModule } from './products/product.module';
     ]),
     ProductModule
   ],
-  declarations: [
-    AppComponent,
-    WelcomeComponent
-  ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
