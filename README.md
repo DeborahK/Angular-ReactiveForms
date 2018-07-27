@@ -1,2 +1,4 @@
-# Angular2-ReactiveForms
-Materials for my Pluralsight course: Angular 2: Reactive Forms.
+# Angular Reactive Forms
+Materials for my Pluralsight course: Angular Reactive Forms: https://app.pluralsight.com/library/courses/angular-2-reactive-forms.
+
+Please see the changelog.md for the most recent changes to this repo.
