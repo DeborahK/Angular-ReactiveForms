@@ -1,5 +1,5 @@
 #Changes made to the course since its release:
-- November 6, 2018 - Updated the course from Angular v2 to Angular v7 including an update to the Angular CLI, Bootstrap 4, and FontAwesome.
+- November 6, 2018 - Updated the course from Angular v2 to Angular v7 including an update to the Angular CLI, Bootstrap 4, and FontAwesome. For details on the list of course changes, see: https://blogs.msmvps.com/deborahk/angular-reactive-forms-course-update-for-v7/
 
 #Changes made to the project files since its release:
 - November 6, 2018 - Updated the course files from Angular v2 to Angular v7 including an update to the Angular CLI, Bootstrap 4, and FontAwesome.
