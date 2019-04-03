@@ -1,0 +1,221 @@
+<div class="card">
+  <div class="card-header">
+    Sign Up!
+  </div>
+
+  <div class="card-body">
+    <form novalidate
+          (ngSubmit)="save(signupForm)"
+          #signupForm="ngForm">
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label"
+               for="firstNameId">First Name</label>
+        <div class="col-md-8">
+          <input class="form-control"
+                 id="firstNameId"
+                 type="text"
+                 placeholder="First Name (required)"
+                 required
+                 minlength="3"
+                 [(ngModel)]=customer.firstName
+                 name="firstName"
+                 #firstNameVar="ngModel"
+                 [ngClass]="{'is-invalid': (firstNameVar.touched || firstNameVar.dirty) && !firstNameVar.valid }" />
+          <span class="invalid-feedback">
+            <span *ngIf="firstNameVar.errors?.required">
+              Please enter your first name.
+            </span>
+            <span *ngIf="firstNameVar.errors?.minlength">
+              The first name must be longer than 3 characters.
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label"
+               for="lastNameId">Last Name</label>
+        <div class="col-md-8">
+          <input class="form-control"
+                 id="lastNameId"
+                 type="text"
+                 placeholder="Last Name (required)"
+                 required
+                 maxlength="50"
+                 [(ngModel)]="customer.lastName"
+                 name="lastName"
+                 #lastNameVar="ngModel"
+                 [ngClass]="{'is-invalid': (lastNameVar.touched || lastNameVar.dirty) && !lastNameVar.valid }" />
+          <span class="invalid-feedback">
+            <span *ngIf="lastNameVar.errors?.required">
+              Please enter your last name.
+            </span>
+            <span *ngIf="lastNameVar.errors?.maxlength">
+              The last name must be less than 50 characters.
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label"
+               for="emailId">Email</label>
+        <div class="col-md-8">
+          <input class="form-control"
+                 id="emailId"
+                 type="email"
+                 placeholder="Email (required)"
+                 required
+                 email
+                 [(ngModel)]="customer.email"
+                 name="email"
+                 #emailVar="ngModel"
+                 [ngClass]="{'is-invalid': (emailVar.touched || emailVar.dirty) && !emailVar.valid }" />
+          <span class="invalid-feedback">
+            <span *ngIf="emailVar.errors?.required">
+              Please enter your email address.
+            </span>
+            <span *ngIf="emailVar.errors?.email">
+              Please enter a valid email address.
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <div class="col-md-8">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input class="form-check-input"
+                     id="sendCatalogId"
+                     type="checkbox"
+                     [(ngModel)]="customer.sendCatalog"
+                     name="sendCatalog"> Send me your catalog
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="customer.sendCatalog">
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label pt-0">Address Type</label>
+          <div class="col-md-8">
+            <div class="form-check form-check-inline">
+              <label class="form-check-label">
+                <input class="form-check-input"
+                       id="addressType1Id"
+                       type="radio"
+                       value="home"
+                       [(ngModel)]="customer.addressType"
+                       name="addressType"> Home
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <label class="form-check-label">
+                <input class="form-check-input"
+                       id="addressType1Id"
+                       type="radio"
+                       value="work"
+                       [(ngModel)]="customer.addressType"
+                       name="addressType"> Work
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <label class="form-check-label">
+                <input class="form-check-input"
+                       id="addressType1Id"
+                       type="radio"
+                       value="other"
+                       [(ngModel)]="customer.addressType"
+                       name="addressType"> Other
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label"
+                 for="street1Id">Street Address 1</label>
+          <div class="col-md-8">
+            <input class="form-control"
+                   id="street1Id"
+                   type="text"
+                   placeholder="Street address"
+                   [(ngModel)]="customer.street1"
+                   name="street1">
+          </div>
+        </div>
+
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label"
+                 for="street2Id">Street Address 2</label>
+          <div class="col-md-8">
+            <input class="form-control"
+                   id="street2Id"
+                   type="text"
+                   placeholder="Street address (second line)"
+                   [(ngModel)]="customer.street2"
+                   name="street2">
+          </div>
+        </div>
+
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label"
+                 for="cityId">City, State, Zip Code</label>
+          <div class="col-md-3">
+            <input class="form-control"
+                   id="cityId"
+                   type="text"
+                   placeholder="City"
+                   [(ngModel)]="customer.city"
+                   name="city">
+          </div>
+          <div class="col-md-3">
+            <select class="form-control"
+                    id="stateId"
+                    [(ngModel)]="customer.state"
+                    name="state">
+              <option value=""
+                      disabled
+                      selected
+                      hidden>Select a State...</option>
+              <option value="AL">Alabama</option>
+              <option value="AK">Alaska</option>
+              <option value="AZ">Arizona</option>
+              <option value="AR">Arkansas</option>
+              <option value="CA">California</option>
+              <option value="CO">Colorado</option>
+              <option value="WI">Wisconsin</option>
+              <option value="WY">Wyoming</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <input class="form-control"
+                   id="zipId"
+                   type="number"
+                   placeholder="Zip Code"
+                   [(ngModel)]="customer.zip"
+                   name="zip">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <div class="offset-md-2 col-md-4">
+          <button class="btn btn-primary mr-3"
+                  type="submit"
+                  style="width:80px"
+                  [title]="signupForm.valid ? 'Save your entered data' : 'Disabled until the form data is valid'"
+                  [disabled]="!signupForm.valid">
+            Save
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<br>Dirty: {{ signupForm.dirty }}
+<br>Touched: {{ signupForm.touched }}
+<br>Valid: {{ signupForm.valid }}
+<br>Value: {{ signupForm.value | json }}

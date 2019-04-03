@@ -1,25 +1,27 @@
+# APM: These are the files showing an Angular Reactive Form in the context of an application.
 
-## Description
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.3.
 
-The edit form in this reference application demonstrates: 
- - FormControls, FormGroups, FormArrays
- - Basic validation
- - Custom validation
- - Generic validation (including blur)
- - Display of validation messages
- - Dynamically adding input elements
- - Passing route parameters
- - Route guards (including confirmation when navigating away with unsaved changes)
- - Populating the form data from Http using Observables
- - Basic CRUD operations: Create, Read, Update, and Delete.
+## Development server
 
-## Installation
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-1) Open a command prompt in the project's root directory (APM)
+## Code scaffolding
 
-2) Type: `npm install`
-    This installs the dependencies as defined in the package.json file.
-    
-3) Type: `npm start`
-    This launches the TypeScript compiler (tsc) to compile the application and wait for changes. 
-    It also starts the lite-server and launches the browser to run the application.
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+
+## Build
+
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+
+## Running unit tests
+
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
