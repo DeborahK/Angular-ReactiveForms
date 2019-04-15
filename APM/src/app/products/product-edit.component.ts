@@ -85,10 +85,12 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     // Watch for the blur event from any input element on the form.
+    // This is required because the valueChanges does not provide notification on blur
     const controlBlurs: Observable<any>[] = this.formInputElements
       .map((formControl: ElementRef) => fromEvent(formControl.nativeElement, 'blur'));
 
     // Merge the blur event observable with the valueChanges observable
+    // so we only need to subscribe once.
     merge(this.productForm.valueChanges, ...controlBlurs).pipe(
       debounceTime(800)
     ).subscribe(value => {

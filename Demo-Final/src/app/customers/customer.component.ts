@@ -118,7 +118,7 @@ export class CustomerComponent implements OnInit {
     console.log(this.validationMessages);
     if ((c.touched || c.dirty) && c.errors) {
       this.emailMessage = Object.keys(c.errors).map(
-        key => this.emailMessage += this.validationMessages[key]).join(' ');
+        key => this.validationMessages[key]).join(' ');
     }
   }
 
