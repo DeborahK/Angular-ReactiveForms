@@ -30,13 +30,13 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
   private genericValidator: GenericValidator;
 
   get tags(): FormArray {
-    return <FormArray>this.productForm.get('tags');
+    return this.productForm.get('tags') as FormArray;
   }
 
   constructor(private fb: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private productService: ProductService) {
+              private route: ActivatedRoute,
+              private router: Router,
+              private productService: ProductService) {
 
     // Defines all of the validation messages for the form.
     // These could instead be retrieved from a file or database.
@@ -62,8 +62,8 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.productForm = this.fb.group({
       productName: ['', [Validators.required,
-      Validators.minLength(3),
-      Validators.maxLength(50)]],
+                         Validators.minLength(3),
+                         Validators.maxLength(50)]],
       productCode: ['', Validators.required],
       starRating: ['', NumberValidators.range(1, 5)],
       tags: this.fb.array([]),
@@ -109,10 +109,10 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getProduct(id: number): void {
     this.productService.getProduct(id)
-      .subscribe(
-        (product: Product) => this.displayProduct(product),
-        (error: any) => this.errorMessage = <any>error
-      );
+      .subscribe({
+        next: (product: Product) => this.displayProduct(product),
+        error: err => this.errorMessage = err
+      });
   }
 
   displayProduct(product: Product): void {
@@ -144,10 +144,10 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       if (confirm(`Really delete the product: ${this.product.productName}?`)) {
         this.productService.deleteProduct(this.product.id)
-          .subscribe(
-            () => this.onSaveComplete(),
-            (error: any) => this.errorMessage = <any>error
-          );
+          .subscribe({
+            next: () => this.onSaveComplete(),
+            error: err => this.errorMessage = err
+          });
       }
     }
   }
@@ -159,16 +159,16 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
         if (p.id === 0) {
           this.productService.createProduct(p)
-            .subscribe(
-              () => this.onSaveComplete(),
-              (error: any) => this.errorMessage = <any>error
-            );
+            .subscribe({
+              next: () => this.onSaveComplete(),
+              error: err => this.errorMessage = err
+            });
         } else {
           this.productService.updateProduct(p)
-            .subscribe(
-              () => this.onSaveComplete(),
-              (error: any) => this.errorMessage = <any>error
-            );
+            .subscribe({
+              next: () => this.onSaveComplete(),
+              error: err => this.errorMessage = err
+            });
         }
       } else {
         this.onSaveComplete();

@@ -122,7 +122,7 @@
               <input class="form-check-input"
                      type="radio"
                      value="email"
-                     formControlName="notification"> Email
+                     formControlName="notification">Email
             </label>
           </div>
           <div class="form-check form-check-inline">
@@ -130,7 +130,7 @@
               <input class="form-check-input"
                      type="radio"
                      value="text"
-                     formControlName="notification"> Text
+                     formControlName="notification">Text
             </label>
           </div>
         </div>
@@ -145,8 +145,8 @@
                  type="number"
                  formControlName="rating"
                  [ngClass]="{'is-invalid': (customerForm.get('rating').touched || 
-                                           customerForm.get('rating').dirty) && 
-                                           !customerForm.get('rating').valid }" />
+                                             customerForm.get('rating').dirty) && 
+                                             !customerForm.get('rating').valid }" />
           <span class="invalid-feedback">
             <span *ngIf="customerForm.get('rating').errors?.range">
               Please rate your experience from 1 to 5.
@@ -169,11 +169,10 @@
       </div>
 
       <div *ngIf="customerForm.get('sendCatalog').value">
+        <div formArrayName="addresses">
 
-        <div formArrayName="addresses"
-             *ngFor="let address of addresses.controls; let i=index">
-
-          <div [formGroupName]="i">
+          <div [formGroupName]="i"
+               *ngFor="let address of addresses.controls; let i=index">
             <div class="form-group row mb-2">
               <label class="col-md-2 col-form-label pt-0">Address Type</label>
               <div class="col-md-8">
@@ -212,7 +211,7 @@
                      attr.for="{{'street1Id' + i}}">Street Address 1</label>
               <div class="col-md-8">
                 <input class="form-control"
-                       id="{{'street1Id' + i}}"
+                       id="{{ 'street1Id' + i }}"
                        type="text"
                        placeholder="Street address (required)"
                        formControlName="street1"
@@ -276,6 +275,7 @@
               </div>
             </div>
           </div>
+
         </div>
 
         <div class="form-group row mb-2">
