@@ -1,5 +1,5 @@
 #Changes made to the course since its release:
-- September 5, 2019 - Updated the course files from Angular v7 to Angular v8. For details on the list of course changes, see: https://docs.google.com/document/d/1HzZdEhbOC-1OVNym2ZIwLahuBi-YUo4ZqV_f2w-eig0/edit?usp=sharing The primary changes were in the Create, Read, Update, and Delete (CRUD) Using HTTP module and involve changs to the subscribe method.
+- September 5, 2019 - Updated the course files from Angular v7 to Angular v8. For details on the list of course changes, see: https://docs.google.com/document/d/1HzZdEhbOC-1OVNym2ZIwLahuBi-YUo4ZqV_f2w-eig0/edit?usp=sharing The primary changes were in the `Create, Read, Update, and Delete (CRUD) Using HTTP` module and involve changs to the subscribe method.
 
 - November 6, 2018 - Updated the course from Angular v2 to Angular v7 including an update to the Angular CLI, Bootstrap 4, and FontAwesome. For details on the list of course changes, see: https://blogs.msmvps.com/deborahk/angular-reactive-forms-course-update-for-v7/
 
