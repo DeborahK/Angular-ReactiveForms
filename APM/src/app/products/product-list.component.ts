@@ -34,6 +34,14 @@ export class ProductListComponent implements OnInit {
       product.productName.toLocaleLowerCase().indexOf(filterBy) !== -1);
   }
 
+  // Checks both the product name and tags
+  performFilter2(filterBy: string): Product[] {
+    filterBy = filterBy.toLocaleLowerCase();
+    return this.products.filter((product: Product) =>
+      product.productName.toLocaleLowerCase().indexOf(filterBy) !== -1 ||
+        (product.tags && product.tags.some(tag => tag.toLocaleLowerCase().indexOf(filterBy) !== -1)))
+  }
+
   toggleImage(): void {
     this.showImage = !this.showImage;
   }
