@@ -49,7 +49,7 @@ export class CustomerComponent implements OnInit {
 
   constructor(private fb: FormBuilder) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.customerForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(3)]],
       lastName: ['', [Validators.required, Validators.maxLength(50)]],
@@ -108,7 +108,7 @@ export class CustomerComponent implements OnInit {
     this.customerForm.setControl('addresses', this.fb.array([addressGroup]));
   }
 
-  save() {
+  save(): void {
     console.log(this.customerForm);
     console.log('Saved: ' + JSON.stringify(this.customerForm.value));
   }

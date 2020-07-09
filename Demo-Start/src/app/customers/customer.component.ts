@@ -13,10 +13,10 @@ export class CustomerComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
-  save(customerForm: NgForm) {
+  save(customerForm: NgForm): void {
     console.log(customerForm.form);
     console.log('Saved: ' + JSON.stringify(customerForm.value));
   }
