@@ -8,6 +8,8 @@
 - November 6, 2018 - Updated the course from Angular v2 to Angular v7 including an update to the Angular CLI, Bootstrap 4, and FontAwesome. For details on the list of course changes, see: https://blogs.msmvps.com/deborahk/angular-reactive-forms-course-update-for-v7/
 
 #Changes made to the project files since its release:
+- October 6, 2021 - Added a set of code for Angular v12. Angular v12 turns on strict typing by default. Angular forms are not very strongly typed, so some changes to the code were required.
+
 - July 9, 2020 - Updated the code to Angular v10, which modified the packages. Minor changes such as adding function return types.
 
 - February 2, 2020 - Updated the code to Angular v9, which only modified the packages not any of the course code.
