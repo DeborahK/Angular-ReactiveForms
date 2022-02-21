@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validator, Validators } from '@angular/forms';
 
 
 import { Customer } from './customer';
@@ -18,10 +18,10 @@ export class CustomerReactiveComponent implements OnInit {
   ngOnInit(): void {
     this.customerForm = this.fb.group(
       {
-        firstName: '', // 写法 1
-        lastName: {value: 'n/a', disabled: true},// 写法 2
-        email: [{value: '', disabled: false}],// 写法 3
-        sendCataLog: [true]               // 写法 3
+        firstName: ['', [Validators.required, Validators.minLength(3)]], 
+        lastName:  ['', [Validators.required, Validators.maxLength(50)]], 
+        email: ['', [Validators.required, Validators.email]], 
+        sendCataLog: true              
       }
     )
     /* this.customerForm = new FormGroup({
