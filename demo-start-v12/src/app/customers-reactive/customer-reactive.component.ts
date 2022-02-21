@@ -28,4 +28,24 @@ export class CustomerReactiveComponent implements OnInit {
     console.log(this.customerForm);
     console.log('Saved: ', this.customerForm);
   }
+
+  setValue() {
+    this.customerForm.setValue(
+      {
+        firstName:'zhangsan',
+        lastName: "wang",
+        email:'123@qq.com',
+        sendCataLog: false
+      }
+    )
+  }
+
+  patchValue() {
+    this.customerForm.patchValue(
+      {
+        firstName:'lisi',
+        lastName: "zhang"
+      }
+    )
+  }
 }
