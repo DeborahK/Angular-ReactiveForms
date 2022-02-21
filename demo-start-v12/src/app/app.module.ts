@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { CustomerReactiveComponent } from './customers-reactive/customer.component';
+import { CustomerReactiveComponent } from './customers-reactive/customer-reactive.component';
 import { CustomerComponent } from './customers/customer.component';
 
 @NgModule({
@@ -14,7 +14,8 @@ import { CustomerComponent } from './customers/customer.component';
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   bootstrap: [AppComponent]
 })

@@ -11,14 +11,17 @@ import { Customer } from './customer';
 })
 export class CustomerReactiveComponent implements OnInit {
   customer = new Customer();
-  customerForm!: FormGroup
+  customerForm!: FormGroup;
 
   constructor() { }
 
   ngOnInit(): void {
     this.customerForm = new FormGroup({
       firstName: new FormControl(),
-    })
+      lastName: new FormControl(),
+      email: new FormControl(),
+      sendCataLog: new FormControl(true)
+    });
   }
 
   save(): void {
