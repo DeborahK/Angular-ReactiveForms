@@ -1,8 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validator, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 
-
-import { Customer } from './customer';
+function ratingRange(min: number, max: number): ValidatorFn {
+  // 自定义的验证函数只能接受一个参数，而且必须是 AbstractControl
+  return (c: AbstractControl):{[key: string]: boolean} | null => {
+    if(c.value !== null && (isNaN(c.value) || c.value < min || c.value > max)){
+      return {'range': true};
+    }
+    return null;
+  }
+}
 
 @Component({
   selector: 'app-customer-reactive',
@@ -22,7 +29,9 @@ export class CustomerReactiveComponent implements OnInit {
         email: ['', [Validators.required, Validators.email]], 
         sendCataLog: true,
         phone: '',
-        notification: 'email'            
+        notification: 'email',
+        // rating: [null, [Validators.max(5), Validators.min(1)]],
+        rating: [null, ratingRange(1, 5)]       
       }
     )
     /* this.customerForm = new FormGroup({

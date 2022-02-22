@@ -118,6 +118,24 @@
       </div>
 
       <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label"
+               for="rating">Rating stars</label>
+        <div class="col-md-8">
+          <input class="form-control"
+                 id="rating"
+                 type="text"
+                 placeholder="Rating "
+                 formControlName="rating"
+                 [ngClass]="{'is-invalid': (customerForm.get('rating')?.touched || customerForm.get('rating')?.dirty) && !customerForm.get('rating')?.valid }" />
+          <span class="invalid-feedback">
+            <span *ngIf="customerForm.get('rating')?.errors?.range">
+              Rating stars is > 1 and < 5
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
         <div class="col-md-8">
           <div class="form-check">
             <label class="form-check-label">
