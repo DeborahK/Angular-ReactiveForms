@@ -72,6 +72,52 @@
       </div>
 
       <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label"
+               for="phone">Phone</label>
+        <div class="col-md-8">
+          <input class="form-control"
+                 id="phone"
+                 type="phone"
+                 placeholder="Phone"
+                 formControlName="phone"
+                 [ngClass]="{'is-invalid': (customerForm.get('phone')?.touched || customerForm.get('phone')?.dirty) && !customerForm.get('phone')?.valid }" />
+          <span class="invalid-feedback">
+            <span *ngIf="customerForm.get('phone')?.errors?.required">
+              Please enter your phone.
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label pt-0">Notification Type</label>
+        <div class="col-md-8">
+          <div class="form-check form-check-inline">
+            <label class="form-check-label">
+              <input class="form-check-input"
+                     id="notificationType1Id"
+                     type="radio"
+                     value="email"
+                     formControlName="notification"
+                     (click)="setNotificationType('email')"
+                     > Email
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <label class="form-check-label">
+              <input class="form-check-input"
+                     id="notificationType1Id"
+                     type="radio"
+                     value="phone"
+                     formControlName="notification"
+                     (click)="setNotificationType('phone')"
+                     > Phone
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
         <div class="col-md-8">
           <div class="form-check">
             <label class="form-check-label">
