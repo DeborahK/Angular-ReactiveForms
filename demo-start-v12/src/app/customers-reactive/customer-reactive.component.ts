@@ -3,12 +3,25 @@ import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn } from
 
 function ratingRange(min: number, max: number): ValidatorFn {
   // 自定义的验证函数只能接受一个参数，而且必须是 AbstractControl
-  return (c: AbstractControl):{[key: string]: boolean} | null => {
+  return (c: AbstractControl): {[key: string]: boolean} | null => {
     if(c.value !== null && (isNaN(c.value) || c.value < min || c.value > max)){
       return {'range': true};
     }
     return null;
   }
+}
+
+function emailMatcher(c: AbstractControl): { [key: string]: boolean } | null {
+  const emailControl =  c.get("email");
+  const confirmEmailContro =  c.get("confirmEmail");
+  //如果用户尚未修改 UI 中的值，则该控件 pristine（原始状态）为 true。
+  if( emailControl?.pristine || confirmEmailContro?.pristine) {
+    return null;
+  }
+  if (emailControl?.value !== confirmEmailContro?.value) {
+    return { match: true};
+  }
+  return null;
 }
 
 @Component({
@@ -25,8 +38,11 @@ export class CustomerReactiveComponent implements OnInit {
     this.customerForm = this.fb.group(
       {
         firstName: ['', [Validators.required, Validators.minLength(3)]], 
-        lastName:  ['', [Validators.required, Validators.maxLength(50)]], 
-        email: ['', [Validators.required, Validators.email]], 
+        lastName:  ['', [Validators.required, Validators.maxLength(50)]],
+        emailGroup: this.fb.group({
+          email: ['', [Validators.required, Validators.email]], 
+          confirmEmail: ['', [Validators.required]],
+        },{validator: emailMatcher}),
         sendCataLog: true,
         phone: '',
         notification: 'email',
