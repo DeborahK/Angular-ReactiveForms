@@ -10,7 +10,6 @@ import { Customer } from './customer';
   styleUrls: ['./customer-reactive.component.css']
 })
 export class CustomerReactiveComponent implements OnInit {
-  customer = new Customer();
   customerForm!: FormGroup;
 
   constructor(private fb: FormBuilder) { }
@@ -21,7 +20,9 @@ export class CustomerReactiveComponent implements OnInit {
         firstName: ['', [Validators.required, Validators.minLength(3)]], 
         lastName:  ['', [Validators.required, Validators.maxLength(50)]], 
         email: ['', [Validators.required, Validators.email]], 
-        sendCataLog: true              
+        sendCataLog: true,
+        phone: '',
+        notification: 'email'            
       }
     )
     /* this.customerForm = new FormGroup({
@@ -55,5 +56,16 @@ export class CustomerReactiveComponent implements OnInit {
         lastName: "zhang"
       }
     )
+  }
+
+  setNotificationType(type: string): void{
+    const phoneControl = this.customerForm.get('phone')
+    if(type === 'phone') {
+      phoneControl?.setValidators(Validators.required)
+      // phoneControl?.setValidators([Validators.required])
+    }else if(type ==='email') {
+      phoneControl?.clearValidators()
+    }
+    phoneControl?.updateValueAndValidity()
   }
 }
