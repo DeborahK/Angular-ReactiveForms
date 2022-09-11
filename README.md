@@ -9,11 +9,12 @@ Materials for my Pluralsight course: ["Angular Reactive Forms"](https://app.plur
 
 Angular v12 turns strict typing on by default. Angular forms is not very strongly typed, so some changes are required to support strict typing. Use these files if you are using Angular v12 or newer or if you turn on strict typing.
 
-`demo-start-v12`: The starter files updated to Angular v12.
-
-`demo-final-v12`: The completed files updated to Angular v12.
-
-`apm-v12`: Angular reactive form in the context of a more full-featured application updated to Angular v12. Includes examples of CRUD (Create, Read, Update, and Delete) operations.
+- `demo-start-v12`: The starter files updated to Angular v12.
+- `demo-final-v12`: The completed files updated to Angular v12.
+- `apm-v12`: Angular reactive form in the context of a more full-featured application updated to Angular v12. Includes examples of CRUD (Create, Read, Update, and Delete) operations.
+- `demo-start-v14`: The starter files updated to Angular v14.
+- `demo-final-v14`: The completed files updated to Angular v14.
+- `apm-v14`: Angular reactive form in the context of a more full-featured application updated to Angular v14. Includes examples of CRUD (Create, Read, Update, and Delete) operations.
 
 See the `README.md` file under each folder for details on installing and running the application.
 
