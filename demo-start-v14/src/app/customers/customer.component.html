@@ -47,14 +47,14 @@
                  name="lastName"
                  #lastNameVar="ngModel"
                  [ngClass]="{'is-invalid': (lastNameVar.touched || lastNameVar.dirty) && !lastNameVar.valid }" />
-          <span class="invalid-feedback">
+          <div class="invalid-feedback">
             <span *ngIf="['lastNameVar.errors?.required']">
               Please enter your last name.
             </span>
             <span *ngIf="['lastNameVar.errors?.maxlength']">
               The last name must be less than 50 characters.
             </span>
-          </span>
+          </div>
         </div>
       </div>
 
@@ -72,14 +72,14 @@
                  name="email"
                  #emailVar="ngModel"
                  [ngClass]="{'is-invalid': (emailVar.touched || emailVar.dirty) && !emailVar.valid }" />
-          <span class="invalid-feedback">
+          <div class="invalid-feedback">
             <span *ngIf="['emailVar.errors?.required']">
               Please enter your email address.
             </span>
             <span *ngIf="['emailVar.errors?.email']">
               Please enter a valid email address.
             </span>
-          </span>
+          </div>
         </div>
       </div>
 
