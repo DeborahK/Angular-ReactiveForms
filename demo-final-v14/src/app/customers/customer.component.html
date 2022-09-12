@@ -43,14 +43,14 @@
                  [ngClass]="{'is-invalid': (customerForm.get('lastName')?.touched ||
                                             customerForm.get('lastName')?.dirty) &&
                                             !customerForm.get('lastName')?.valid }" />
-          <span class="invalid-feedback">
+          <div class="invalid-feedback">
             <span *ngIf="customerForm.get('lastName')?.errors?.['required']">
               Please enter your last name.
             </span>
             <span *ngIf="customerForm.get('lastName')?.errors?.['maxlength']">
               The last name must be less than 50 characters.
             </span>
-          </span>
+          </div>
         </div>
       </div>
 

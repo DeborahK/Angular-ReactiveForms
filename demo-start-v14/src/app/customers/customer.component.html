@@ -22,14 +22,14 @@
                  name="firstName"
                  #firstNameVar="ngModel"
                  [ngClass]="{'is-invalid': (firstNameVar.touched || firstNameVar.dirty) && !firstNameVar.valid }" />
-          <span class="invalid-feedback">
+          <div class="invalid-feedback">
             <span *ngIf="['firstNameVar.errors?required']">
               Please enter your first name.
             </span>
             <span *ngIf="['firstNameVar.errors?.minlength']">
               The first name must be longer than 3 characters.
             </span>
-          </span>
+          </div>
         </div>
       </div>
 
